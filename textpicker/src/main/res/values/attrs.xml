@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+
+    <!--TextBox-->
+    <declare-styleable name="TextPicker">
+        <attr name="minValue" format="float" />
+        <attr name="maxValue" format="float" />
+        <attr name="defaultValue" format="float" />
+        <attr name="type" format="enum">
+            <enum name="empty" value="1" />
+            <enum name="range" value="2" />
+            <enum name="equal" value="3" />
+            <enum name="pattern" value="4" />
+        </attr>
+    </declare-styleable>
+
+
+</resources>
