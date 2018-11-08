@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <com.edittextpicker.aliazaz.textpicker.TextPicker
+        android:id="@+id/lsid7m"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ABCD"
+        android:inputType="number"
+        android:maxLength="2"
+        app:maxValue="11"
+        app:minValue="0"
+        app:type="pattern" />
+
+
 </android.support.constraint.ConstraintLayout>

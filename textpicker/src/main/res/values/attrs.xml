@@ -7,14 +7,14 @@
 
     <!--TextBox-->
     <declare-styleable name="TextPicker">
+        <attr name="required" format="boolean" />
         <attr name="minValue" format="float" />
         <attr name="maxValue" format="float" />
         <attr name="defaultValue" format="float" />
         <attr name="type" format="enum">
-            <enum name="empty" value="1" />
-            <enum name="range" value="2" />
-            <enum name="equal" value="3" />
-            <enum name="pattern" value="4" />
+            <enum name="range" value="1" />
+            <enum name="equal" value="2" />
+            <enum name="pattern" value="3" />
         </attr>
     </declare-styleable>
 

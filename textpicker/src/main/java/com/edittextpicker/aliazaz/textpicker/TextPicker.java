@@ -13,6 +13,7 @@ public class TextPicker extends AppCompatEditText {
     private Context mContext;
     private String msg;
     Integer type;
+    Boolean reqFlag;
 
     public TextPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,29 +26,21 @@ public class TextPicker extends AppCompatEditText {
             );
 
             try {
-
+                reqFlag = a.getBoolean(R.styleable.TextPicker_required, false);
                 type = a.getInteger(R.styleable.TextPicker_type, 0);
-                if (type == 0)
-                    throw new RuntimeException("Text type not provided");
-
                 //For range
                 if (type == 2) {
                     minValue = a.getFloat(R.styleable.TextPicker_minValue, -1);
                     maxvalue = a.getFloat(R.styleable.TextPicker_maxValue, -1);
-
                     if (minValue == -1)
                         throw new RuntimeException("Min value not provided");
-
                     if (maxvalue == -1)
                         throw new RuntimeException("Max value not provided");
                 }
-
             } finally {
                 a.recycle();
             }
-
         }
-
     }
 
     public void setManager(@NonNull Context mContext, @NonNull String msg) {
@@ -80,6 +73,10 @@ public class TextPicker extends AppCompatEditText {
     }
 
     public boolean isEmptyTextBox() {
+
+        if (!reqFlag)
+            return true;
+
         if (super.getText().toString().isEmpty()) {
             Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Empty!!");
             super.setError("This data is Required! ");
@@ -95,7 +92,7 @@ public class TextPicker extends AppCompatEditText {
         return true;
     }
 
-    public boolean isRangePickerValidate() {
+    public boolean isRangeTextValidate() {
 
         if (!isEmptyTextBox())
             return false;
