@@ -11,10 +11,11 @@
         <attr name="minValue" format="float" />
         <attr name="maxValue" format="float" />
         <attr name="defaultValue" format="float" />
+        <attr name="pattern" format="string" />
+        <attr name="mask" format="string" />
         <attr name="type" format="enum">
             <enum name="range" value="1" />
             <enum name="equal" value="2" />
-            <enum name="pattern" value="3" />
         </attr>
     </declare-styleable>
 
