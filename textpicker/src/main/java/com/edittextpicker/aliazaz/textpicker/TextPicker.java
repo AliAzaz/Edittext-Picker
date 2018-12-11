@@ -9,11 +9,11 @@ import android.util.Log;
 
 public class TextPicker extends AppCompatEditText {
 
-    private float minValue, maxvalue;
+    private float minValue, maxValue, defaultValue;
     private Context mContext;
     private String msg;
-    Integer type;
-    Boolean reqFlag;
+    private Integer type;
+    private Boolean reqFlag;
 
     public TextPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,17 +26,32 @@ public class TextPicker extends AppCompatEditText {
             );
 
             try {
+                //required flag
                 reqFlag = a.getBoolean(R.styleable.TextPicker_required, false);
+
+                //For type -> range and equal
                 type = a.getInteger(R.styleable.TextPicker_type, 0);
-                //For range
-                if (type == 2) {
+                if (type == 1) {
+
                     minValue = a.getFloat(R.styleable.TextPicker_minValue, -1);
-                    maxvalue = a.getFloat(R.styleable.TextPicker_maxValue, -1);
+                    maxValue = a.getFloat(R.styleable.TextPicker_maxValue, -1);
+                    defaultValue = a.getFloat(R.styleable.TextPicker_defaultValue, -1);
+
                     if (minValue == -1)
                         throw new RuntimeException("Min value not provided");
-                    if (maxvalue == -1)
+                    if (maxValue == -1)
                         throw new RuntimeException("Max value not provided");
+
+                } else if (type == 2) {
+                    defaultValue = a.getFloat(R.styleable.TextPicker_defaultValue, -1);
+
+                    if (defaultValue == -1)
+                        throw new RuntimeException("Default value not provided");
                 }
+
+                // For pattern
+
+
             } finally {
                 a.recycle();
             }
@@ -64,12 +79,12 @@ public class TextPicker extends AppCompatEditText {
         this.minValue = minValue;
     }
 
-    public float getMaxvalue() {
-        return maxvalue;
+    public float getMaxValue() {
+        return maxValue;
     }
 
-    public void setMaxvalue(float maxvalue) {
-        this.maxvalue = maxvalue;
+    public void setMaxValue(float maxValue) {
+        this.maxValue = maxValue;
     }
 
     public boolean isEmptyTextBox() {
@@ -97,11 +112,51 @@ public class TextPicker extends AppCompatEditText {
         if (!isEmptyTextBox())
             return false;
 
-        if (Double.valueOf(super.getText().toString()) < minValue || Double.valueOf(super.getText().toString()) > maxvalue) {
-            super.setError("Range is " + minValue + " to " + maxvalue + " " + msg + " ... ");
+        if (Float.valueOf(super.getText().toString()) < minValue || Float.valueOf(super.getText().toString()) > maxValue) {
+
+            String min = String.valueOf(minValue);
+            String max = String.valueOf(maxValue);
+
+            if (minValue != Math.round(minValue))
+                min = (min.split(".")[0]);
+
+            if (maxValue != Math.round(maxValue))
+                max = (min.split(".")[0]);
+
+            super.setError("Range is " + min + " to " + max + " " + msg + " !!");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
-            Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Range is " + minValue + " to " + maxvalue + " times...  ");
+            Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Range is " + min + " to " + max + "!!");
+
+            invalidate();
+            requestLayout();
+
+            if (defaultValue != -1)
+                return (super.getText().toString().equals(String.valueOf(defaultValue)));
+
+            return false;
+        } else {
+            super.setError(null);
+            super.clearFocus();
+
+            invalidate();
+            requestLayout();
+
+            return true;
+        }
+    }
+
+    public boolean isTextEqual() {
+
+        if (!isEmptyTextBox())
+            return false;
+
+        if (super.getText().toString().equals(String.valueOf(defaultValue))) {
+
+            super.setError("Not equal to default value: " + defaultValue + " !!");
+            super.setFocusableInTouchMode(true);
+            super.requestFocus();
+            Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Not Equal to default value: " + defaultValue + "!!");
 
             invalidate();
             requestLayout();
@@ -116,5 +171,7 @@ public class TextPicker extends AppCompatEditText {
 
             return true;
         }
+
     }
+
 }
