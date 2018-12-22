@@ -8,15 +8,20 @@
     <!--TextBox-->
     <declare-styleable name="TextPicker">
         <attr name="required" format="boolean" />
+
+        <attr name="pattern" format="string" />
+
+        <attr name="mask" format="string" />
+
+        <!--Numeric-->
+        <attr name="defaultValue" format="float" />
         <attr name="minValue" format="float" />
         <attr name="maxValue" format="float" />
-        <attr name="defaultValue" format="float" />
-        <attr name="pattern" format="string" />
-        <attr name="mask" format="string" />
         <attr name="type" format="enum">
             <enum name="range" value="1" />
             <enum name="equal" value="2" />
         </attr>
+
     </declare-styleable>
 
 </resources>

@@ -11,7 +11,7 @@ public class TextPicker extends AppCompatEditText {
 
     private float minValue, maxValue, defaultValue;
     private Context mContext;
-    private String msg;
+    private String msg, mask;
     private Integer type;
     private Boolean reqFlag;
 
@@ -49,7 +49,8 @@ public class TextPicker extends AppCompatEditText {
                         throw new RuntimeException("Default value not provided");
                 }
 
-                // For pattern
+                // For mask
+                mask = a.getString(R.styleable.TextPicker_mask);
 
 
             } finally {
