@@ -7,15 +7,17 @@
     tools:context=".MainActivity">
 
     <com.edittextpicker.aliazaz.textpicker.TextPicker
-        android:id="@+id/lsid7m"
+        android:id="@+id/txtMask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ABCD"
-        android:inputType="number"
-        android:maxLength="2"
-        app:maxValue="11"
-        app:minValue="0"
-        app:type="pattern" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:hint="###-##"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mask="###-##" />
 
 
 </android.support.constraint.ConstraintLayout>

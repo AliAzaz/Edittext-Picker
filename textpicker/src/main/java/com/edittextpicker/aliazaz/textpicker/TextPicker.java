@@ -4,19 +4,28 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 
-public class TextPicker extends AppCompatEditText {
+public class TextPicker extends AppCompatEditText implements TextWatcher, View.OnKeyListener {
 
     private float minValue, maxValue, defaultValue;
     private Context mContext;
     private String msg, mask;
     private Integer type;
     private Boolean reqFlag;
+    static String TAG = TextPicker.class.getName();
+    private boolean maskCheck = false, maskCheckFlag = true;
 
     public TextPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        ImplementListeners();
 
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -51,12 +60,20 @@ public class TextPicker extends AppCompatEditText {
 
                 // For mask
                 mask = a.getString(R.styleable.TextPicker_mask);
+                if (!mask.trim().isEmpty()) {
+                    maskingEditText(mask);
+                }
 
 
             } finally {
                 a.recycle();
             }
         }
+    }
+
+    private void ImplementListeners() {
+        super.addTextChangedListener(this);
+        super.setOnKeyListener(this);
     }
 
     public void setManager(@NonNull Context mContext, @NonNull String msg) {
@@ -175,4 +192,68 @@ public class TextPicker extends AppCompatEditText {
 
     }
 
+    private void maskingEditText(final String mask) {
+        for (byte i = 0; i < mask.length(); i++) {
+            if (mask.charAt(i) != '#' && mask.charAt(i) != '-')
+                return;
+        }
+        super.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mask.length())}); //Setting length
+        maskCheck = true;
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        if (maskCheck) {
+
+            if (TextPicker.super.getText().length() < mask.length()) {
+                if (String.valueOf(mask.charAt(TextPicker.super.getText().length())).equals("-")) {
+                    maskCheckFlag = true;
+                }
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        if (maskCheck) {
+            if (maskCheckFlag) {
+                if (TextPicker.super.getText().length() < mask.length()) {
+                    if (String.valueOf(mask.charAt(TextPicker.super.getText().length())).equals("-")) {
+                        TextPicker.super.append("-");
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+        if (maskCheck) {
+            if (maskCheckFlag) {
+                TextPicker.super.setSelection(TextPicker.super.getText().length());
+            }
+        }
+
+    }
+
+    @Override
+    public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+
+        if (keyCode == KeyEvent.KEYCODE_DEL) {
+
+            if (maskCheck) {
+                maskCheckFlag = false;
+            }
+
+        }
+
+        return false;
+    }
 }
