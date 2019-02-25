@@ -205,7 +205,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        if (maskCheck) {
+        /*if (maskCheck) {
 
             if (TextPicker.super.getText().length() < mask.length()) {
                 if (String.valueOf(mask.charAt(TextPicker.super.getText().length())).equals("-")) {
@@ -213,14 +213,14 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
                 }
             }
 
-        }
+        }*/
 
     }
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        if (maskCheck) {
+        /*if (maskCheck) {
             if (maskCheckFlag) {
                 if (TextPicker.super.getText().length() < mask.length()) {
                     if (String.valueOf(mask.charAt(TextPicker.super.getText().length())).equals("-")) {
@@ -228,18 +228,18 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
                     }
                 }
             }
-        }
+        }*/
 
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
 
-        if (maskCheck) {
+        /*if (maskCheck) {
             if (maskCheckFlag) {
                 TextPicker.super.setSelection(TextPicker.super.getText().length());
             }
-        }
+        }*/
 
     }
 
