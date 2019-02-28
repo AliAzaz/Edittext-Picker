@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 
 public class TextPicker extends AppCompatEditText implements TextWatcher, View.OnKeyListener {
 
@@ -192,11 +193,13 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
 
     }
 
+    String dt = "";
+
     private void maskingEditText(final String mask) {
-        for (byte i = 0; i < mask.length(); i++) {
+        /*for (byte i = 0; i < mask.length(); i++) {
             if (mask.charAt(i) != '#' && mask.charAt(i) != '-')
                 return;
-        }
+        }*/
         super.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mask.length())}); //Setting length
         maskCheck = true;
 
@@ -215,6 +218,10 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
 
         }*/
 
+//        editTextLoopToNextChar(mask,i);
+//        dt = editTextLoopToNextChar(mask, i);
+        Log.d(TAG, "beforeTextChanged: " + i);
+
     }
 
     @Override
@@ -230,6 +237,9 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
             }
         }*/
 
+//        TextPicker.super.append(dt);
+        Log.d(TAG, "onTextChanged: " + i);
+
     }
 
     @Override
@@ -240,6 +250,8 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
                 TextPicker.super.setSelection(TextPicker.super.getText().length());
             }
         }*/
+
+        Log.d(TAG, "afterTextChanged: " + editable.toString());
 
     }
 
@@ -256,4 +268,26 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
 
         return false;
     }
+
+    private void editTextComparing(EditText cEditText, String maskEdit, int position) {
+
+        if (maskEdit.charAt(position) != '#')
+            cEditText.append(editTextLoopToNextChar(maskEdit, position));
+
+    }
+
+    private String editTextLoopToNextChar(String maskEdit, int position) {
+
+        String finalResult = "";
+        for (int i = position; i < maskEdit.length(); i++) {
+            if (maskEdit.charAt(i) != '#')
+                finalResult += maskEdit.charAt(i);
+            else
+                break;
+        }
+
+        return finalResult;
+    }
+
+
 }
