@@ -256,7 +256,8 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
         if (mask == null) return;
         if (!maskCheckFlag) return;
 
-        editTextLoopToNextChar(mask, editable.length() - 1);
+        String txt = editTextLoopToNextChar(mask, editable.length() - 1);
+        TextPicker.super.getText().insert(editable.length() - 1, txt);
 
         Log.d(TAG, "afterTextChanged: " + editable.toString());
 
@@ -286,12 +287,9 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
         for (int i = position; i < maskEdit.length(); i++) {
             if (maskEdit.charAt(i) != '#') {
                 finalResult += maskEdit.charAt(i);
-                TextPicker.super.getText().insert(position, String.valueOf(maskEdit.charAt(i)));
             } else
                 break;
         }
-
-        TextPicker.super.setSelection(TextPicker.super.getText().length());
 
         return finalResult;
     }
