@@ -13,11 +13,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:hint="###-##"
+        android:hint="+9###-##"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mask="###-##" />
+        app:mask="+9###-##" />
 
 
 </android.support.constraint.ConstraintLayout>

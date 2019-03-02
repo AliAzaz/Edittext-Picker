@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 
 public class TextPicker extends AppCompatEditText implements TextWatcher, View.OnKeyListener {
 
@@ -221,6 +220,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
 //        editTextLoopToNextChar(mask,i);
 //        dt = editTextLoopToNextChar(mask, i);
         Log.d(TAG, "beforeTextChanged: " + i);
+        dt = charSequence.toString();
 
     }
 
@@ -240,6 +240,8 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
 //        TextPicker.super.append(dt);
         Log.d(TAG, "onTextChanged: " + i);
 
+        maskCheckFlag = i2 != 0;
+
     }
 
     @Override
@@ -251,6 +253,11 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
             }
         }*/
 
+        if (mask == null) return;
+        if (!maskCheckFlag) return;
+
+        editTextLoopToNextChar(mask, editable.length() - 1);
+
         Log.d(TAG, "afterTextChanged: " + editable.toString());
 
     }
@@ -258,33 +265,33 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
     @Override
     public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
 
-        if (keyCode == KeyEvent.KEYCODE_DEL) {
+        /*if (keyCode == KeyEvent.KEYCODE_DEL) {
 
             if (maskCheck) {
                 maskCheckFlag = false;
             }
 
-        }
+            if (mask == null) return true;
+
+            maskCheckFlag = false;
+
+        }*/
 
         return false;
-    }
-
-    private void editTextComparing(EditText cEditText, String maskEdit, int position) {
-
-        if (maskEdit.charAt(position) != '#')
-            cEditText.append(editTextLoopToNextChar(maskEdit, position));
-
     }
 
     private String editTextLoopToNextChar(String maskEdit, int position) {
 
         String finalResult = "";
         for (int i = position; i < maskEdit.length(); i++) {
-            if (maskEdit.charAt(i) != '#')
+            if (maskEdit.charAt(i) != '#') {
                 finalResult += maskEdit.charAt(i);
-            else
+                TextPicker.super.getText().insert(position, String.valueOf(maskEdit.charAt(i)));
+            } else
                 break;
         }
+
+        TextPicker.super.setSelection(TextPicker.super.getText().length());
 
         return finalResult;
     }
