@@ -9,10 +9,8 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 
-public class TextPicker extends AppCompatEditText implements TextWatcher, View.OnKeyListener {
+public class TextPicker extends AppCompatEditText implements TextWatcher {
 
     private float minValue, maxValue, defaultValue;
     private Context mContext;
@@ -20,7 +18,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
     private Integer type;
     private Boolean reqFlag;
     static String TAG = TextPicker.class.getName();
-    private boolean maskCheck = false, maskCheckFlag = true;
+    private boolean maskCheckFlag = true;
 
     public TextPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -73,7 +71,6 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
 
     private void ImplementListeners() {
         super.addTextChangedListener(this);
-        super.setOnKeyListener(this);
     }
 
     public void setManager(@NonNull Context mContext, @NonNull String msg) {
@@ -192,93 +189,26 @@ public class TextPicker extends AppCompatEditText implements TextWatcher, View.O
 
     }
 
-    String dt = "";
-
     private void maskingEditText(final String mask) {
-        /*for (byte i = 0; i < mask.length(); i++) {
-            if (mask.charAt(i) != '#' && mask.charAt(i) != '-')
-                return;
-        }*/
         super.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mask.length())}); //Setting length
-        maskCheck = true;
-
     }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        /*if (maskCheck) {
-
-            if (TextPicker.super.getText().length() < mask.length()) {
-                if (String.valueOf(mask.charAt(TextPicker.super.getText().length())).equals("-")) {
-                    maskCheckFlag = true;
-                }
-            }
-
-        }*/
-
-//        editTextLoopToNextChar(mask,i);
-//        dt = editTextLoopToNextChar(mask, i);
-        Log.d(TAG, "beforeTextChanged: " + i);
-        dt = charSequence.toString();
-
     }
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        /*if (maskCheck) {
-            if (maskCheckFlag) {
-                if (TextPicker.super.getText().length() < mask.length()) {
-                    if (String.valueOf(mask.charAt(TextPicker.super.getText().length())).equals("-")) {
-                        TextPicker.super.append("-");
-                    }
-                }
-            }
-        }*/
-
-//        TextPicker.super.append(dt);
-        Log.d(TAG, "onTextChanged: " + i);
-
+        if (mask == null) return;
         maskCheckFlag = i2 != 0;
-
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
-
-        /*if (maskCheck) {
-            if (maskCheckFlag) {
-                TextPicker.super.setSelection(TextPicker.super.getText().length());
-            }
-        }*/
-
         if (mask == null) return;
         if (!maskCheckFlag) return;
-
         String txt = editTextLoopToNextChar(mask, editable.length() - 1);
         TextPicker.super.getText().insert(editable.length() - 1, txt);
-
-        Log.d(TAG, "afterTextChanged: " + editable.toString());
-
-    }
-
-    @Override
-    public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-
-        /*if (keyCode == KeyEvent.KEYCODE_DEL) {
-
-            if (maskCheck) {
-                maskCheckFlag = false;
-            }
-
-            if (mask == null) return true;
-
-            maskCheckFlag = false;
-
-        }*/
-
-        return false;
     }
 
     private String editTextLoopToNextChar(String maskEdit, int position) {
