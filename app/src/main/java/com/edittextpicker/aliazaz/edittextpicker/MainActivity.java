@@ -5,13 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.edittextpicker.aliazaz.textpicker.TextPicker;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnSubmit;
-    EditText txt;
+    EditText txtBoxRange, txtBoxDefault;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +26,39 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializingComponents() {
         btnSubmit = findViewById(R.id.btnSubmit);
-        txt = findViewById(R.id.txtMask);
+        txtBoxRange = findViewById(R.id.txtBoxRange);
+        txtBoxDefault = findViewById(R.id.txtBoxDefault);
     }
 
     private void settingListeners() {
-
-        ((TextPicker) txt).isEmptyTextBox();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                if (validateComponents()) {
+                    Toast.makeText(MainActivity.this, "Successfully submitted!!", Toast.LENGTH_SHORT).show();
+                    clearFields();
+                }
+
             }
         });
 
+
+    }
+
+    private boolean validateComponents() {
+
+        if (!((TextPicker) txtBoxRange).isEmptyTextBox())
+            return false;
+
+        if (!((TextPicker) txtBoxRange).isRangeTextValidate())
+            return false;
+
+        return ((TextPicker) txtBoxDefault).isTextEqual();
+    }
+
+    private void clearFields() {
 
     }
 }

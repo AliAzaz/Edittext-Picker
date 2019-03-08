@@ -9,7 +9,7 @@
     <declare-styleable name="TextPicker">
         <attr name="required" format="boolean" />
 
-        <attr name="pattern" format="string" />
+        <!--<attr name="pattern" format="string" />-->
 
         <attr name="mask" format="string" />
 
