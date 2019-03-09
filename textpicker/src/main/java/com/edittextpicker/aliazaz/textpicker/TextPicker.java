@@ -109,7 +109,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
 
         if (super.getText().toString().isEmpty()) {
             Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Empty!!");
-            super.setError("This data is Required! ");
+            super.setError("Required! ");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
 
