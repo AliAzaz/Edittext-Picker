@@ -30,7 +30,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="Alphabets"
+        android:text="Alphabets*"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -83,6 +83,7 @@
         android:layout_marginEnd="8dp"
         android:inputType="number"
         android:textColor="@color/colorPrimary"
+        app:defaultValue="999"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent"
@@ -123,7 +124,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/txtBoxDefault"
-        app:mask="##-##-####" />
+        app:mask="##-##-####"
+        app:required="false" />
 
     <com.edittextpicker.aliazaz.textpicker.TextPicker
         android:id="@+id/textPhone"
@@ -142,7 +144,8 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/txtMask"
         app:layout_constraintVertical_bias="0.0"
-        app:mask="+92(###)####-###" />
+        app:mask="+92(###)####-###"
+        app:required="false" />
 
     <Button
         android:id="@+id/btnSubmit"
@@ -161,7 +164,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="281dp" />
+        app:layout_constraintGuide_percent="0.25" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"

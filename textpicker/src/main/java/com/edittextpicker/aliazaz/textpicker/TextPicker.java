@@ -15,7 +15,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
     private float minValue, maxValue;
     private Object defaultValue;
     private Context mContext;
-    private String msg, mask;
+    private String mask;
     private Integer type;
     private Boolean reqFlag;
     static String TAG = TextPicker.class.getName();
@@ -35,7 +35,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
 
             try {
                 //required flag
-                reqFlag = a.getBoolean(R.styleable.TextPicker_required, false);
+                reqFlag = a.getBoolean(R.styleable.TextPicker_required, true);
 
                 //For type -> range and equal
                 type = a.getInteger(R.styleable.TextPicker_type, 0);
@@ -60,8 +60,10 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
 
                 // For mask
                 mask = a.getString(R.styleable.TextPicker_mask);
-                if (!mask.trim().isEmpty()) {
-                    maskingEditText(mask);
+                if (mask != null) {
+                    if (!mask.trim().isEmpty()) {
+                        maskingEditText(mask);
+                    }
                 }
 
 
@@ -77,9 +79,8 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
         super.addTextChangedListener(this);
     }
 
-    public void setManager(@NonNull Context mContext, @NonNull String msg) {
+    public void setManager(@NonNull Context mContext) {
         this.mContext = mContext;
-        this.msg = msg;
     }
 
     public Integer getType() {
@@ -150,7 +151,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
             return true;
 
         if (super.getText().toString().isEmpty()) {
-            Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Empty!!");
+            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Empty!!");
             super.setError("Required! ");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
@@ -167,70 +168,75 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking range textbox
     public boolean isRangeTextValidate() {
 
+        if (!reqFlag)
+            return true;
+
         if (!isEmptyTextBox())
             return false;
 
         if (Float.valueOf(super.getText().toString()) < minValue || Float.valueOf(super.getText().toString()) > maxValue) {
 
+            if ((Float) defaultValue != -1) {
+
+                String dValue = String.valueOf(defaultValue);
+                if ((Float) defaultValue == Math.round((Float) defaultValue))
+                    dValue = (dValue.split("\\.")[0]);
+
+                boolean flag = (super.getText().toString().equals(String.valueOf(dValue)));
+
+                invalidate();
+                requestLayout();
+
+                if (flag)
+                    return true;
+            }
+
             String min = String.valueOf(minValue);
             String max = String.valueOf(maxValue);
 
-            if (minValue != Math.round(minValue))
-                min = (min.split(".")[0]);
+            if (minValue == Math.round(minValue))
+                min = (min.split("\\.")[0]);
 
-            if (maxValue != Math.round(maxValue))
-                max = (min.split(".")[0]);
+            if (maxValue == Math.round(maxValue))
+                max = (max.split("\\.")[0]);
 
-            super.setError("Range is " + min + " to " + max + " " + msg + " !!");
+            super.setError("Range is " + min + " to " + max + " !!");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
-            Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Range is " + min + " to " + max + "!!");
-
-            if (defaultValue != -1)
-                return (super.getText().toString().equals(String.valueOf(defaultValue)));
+            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Range is " + min + " to " + max + "!!");
 
             invalidate();
             requestLayout();
 
             return false;
-        } else {
-            super.setError(null);
-            super.clearFocus();
-
-            invalidate();
-            requestLayout();
-
-            return true;
         }
+
+        return true;
     }
 
     // call for checking default value in textbox
     public boolean isTextEqual() {
 
+        if (!reqFlag)
+            return true;
+
         if (!isEmptyTextBox())
             return false;
 
-        if (super.getText().toString().equals(String.valueOf(defaultValue))) {
+        if (!super.getText().toString().equals(String.valueOf(defaultValue))) {
 
             super.setError("Not equal to default value: " + defaultValue + " !!");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
-            Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Not Equal to default value: " + defaultValue + "!!");
+            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Not Equal to default value: " + defaultValue + "!!");
 
             invalidate();
             requestLayout();
 
             return false;
-        } else {
-            super.setError(null);
-            super.clearFocus();
-
-            invalidate();
-            requestLayout();
-
-            return true;
         }
 
+        return true;
     }
 
 }

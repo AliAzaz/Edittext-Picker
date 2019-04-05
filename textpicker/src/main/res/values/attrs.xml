@@ -14,7 +14,7 @@
         <attr name="mask" format="string" />
 
         <!--Numeric-->
-        <attr name="defaultValue" format="float" />
+        <attr name="defaultValue" format="string" />
         <attr name="minValue" format="float" />
         <attr name="maxValue" format="float" />
         <attr name="type" format="enum">
