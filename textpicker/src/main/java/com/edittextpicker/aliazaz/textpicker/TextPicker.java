@@ -119,7 +119,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
         TextPicker.super.getText().insert(editable.length() - 1, txt);
     }
 
-    // call in afterTextChanged
+    // call in afterTextChanged event
     private String editTextLoopToNextChar(String maskEdit, int position) {
 
         String finalResult = "";
