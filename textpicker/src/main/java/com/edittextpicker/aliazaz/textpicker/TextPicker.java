@@ -14,7 +14,6 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
 
     private float minValue, maxValue;
     private Object defaultValue;
-    private Context mContext;
     private String mask;
     private Integer type;
     private Boolean reqFlag;
@@ -77,10 +76,6 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
 
     private void ImplementListeners() {
         super.addTextChangedListener(this);
-    }
-
-    public void setManager(@NonNull Context mContext) {
-        this.mContext = mContext;
     }
 
     public Integer getType() {
