@@ -12,7 +12,8 @@ import android.util.Log;
 
 public class TextPicker extends AppCompatEditText implements TextWatcher {
 
-    private float minValue, maxValue, defaultValue;
+    private float minValue, maxValue;
+    private Object defaultValue;
     private Context mContext;
     private String msg, mask;
     private Integer type;
@@ -42,6 +43,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
 
                     minValue = a.getFloat(R.styleable.TextPicker_minValue, -1);
                     maxValue = a.getFloat(R.styleable.TextPicker_maxValue, -1);
+                    defaultValue = a.getFloat(R.styleable.TextPicker_defaultValue, -1);
 
                     if (minValue == -1)
                         throw new RuntimeException("Min value not provided");
@@ -49,9 +51,10 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
                         throw new RuntimeException("Max value not provided");
 
                 } else if (type == 2) {
-                    defaultValue = a.getFloat(R.styleable.TextPicker_defaultValue, -1);
 
-                    if (defaultValue == -1)
+                    defaultValue = a.getString(R.styleable.TextPicker_defaultValue);
+
+                    if (defaultValue == null)
                         throw new RuntimeException("Default value not provided");
                 }
 
@@ -62,6 +65,8 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
                 }
 
 
+            } catch (Exception e) {
+                Log.e(TAG, "TextPicker: ", e);
             } finally {
                 a.recycle();
             }
@@ -181,11 +186,11 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
             super.requestFocus();
             Log.i(mContext.getClass().getName(), mContext.getResources().getResourceEntryName(super.getId()) + ": Range is " + min + " to " + max + "!!");
 
-            invalidate();
-            requestLayout();
-
             if (defaultValue != -1)
                 return (super.getText().toString().equals(String.valueOf(defaultValue)));
+
+            invalidate();
+            requestLayout();
 
             return false;
         } else {
@@ -199,7 +204,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
         }
     }
 
-    // call for checking deafult value in textbox
+    // call for checking default value in textbox
     public boolean isTextEqual() {
 
         if (!isEmptyTextBox())
