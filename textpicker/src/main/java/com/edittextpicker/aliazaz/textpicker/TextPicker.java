@@ -42,7 +42,6 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
 
                     minValue = a.getFloat(R.styleable.TextPicker_minValue, -1);
                     maxValue = a.getFloat(R.styleable.TextPicker_maxValue, -1);
-                    defaultValue = a.getFloat(R.styleable.TextPicker_defaultValue, -1);
 
                     if (minValue == -1)
                         throw new RuntimeException("Min value not provided");
@@ -102,6 +101,44 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
         this.maxValue = maxValue;
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if (mask == null) return;
+        maskCheckFlag = i2 != 0;
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if (mask == null) return;
+        if (!maskCheckFlag) return;
+        String txt = editTextLoopToNextChar(mask, editable.length() - 1);
+        TextPicker.super.getText().insert(editable.length() - 1, txt);
+    }
+
+    // call in afterTextChanged
+    private String editTextLoopToNextChar(String maskEdit, int position) {
+
+        String finalResult = "";
+        for (int i = position; i < maskEdit.length(); i++) {
+            if (maskEdit.charAt(i) != '#') {
+                finalResult += maskEdit.charAt(i);
+            } else
+                break;
+        }
+
+        return finalResult;
+    }
+
+    // call for maskingEditText
+    private void maskingEditText(final String mask) {
+        super.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mask.length())}); //Setting length
+    }
+
+    // call for checking empty textbox
     public boolean isEmptyTextBox() {
 
         if (!reqFlag)
@@ -122,6 +159,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
         return true;
     }
 
+    // call for checking range textbox
     public boolean isRangeTextValidate() {
 
         if (!isEmptyTextBox())
@@ -161,6 +199,7 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
         }
     }
 
+    // call for checking deafult value in textbox
     public boolean isTextEqual() {
 
         if (!isEmptyTextBox())
@@ -188,41 +227,5 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
         }
 
     }
-
-    private void maskingEditText(final String mask) {
-        super.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mask.length())}); //Setting length
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        if (mask == null) return;
-        maskCheckFlag = i2 != 0;
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        if (mask == null) return;
-        if (!maskCheckFlag) return;
-        String txt = editTextLoopToNextChar(mask, editable.length() - 1);
-        TextPicker.super.getText().insert(editable.length() - 1, txt);
-    }
-
-    private String editTextLoopToNextChar(String maskEdit, int position) {
-
-        String finalResult = "";
-        for (int i = position; i < maskEdit.length(); i++) {
-            if (maskEdit.charAt(i) != '#') {
-                finalResult += maskEdit.charAt(i);
-            } else
-                break;
-        }
-
-        return finalResult;
-    }
-
 
 }
