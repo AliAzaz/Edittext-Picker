@@ -1,11 +1,9 @@
-package com.edittextpicker.aliazaz.textpicker;
+package com.edittextpicker.aliazaz;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -116,27 +114,13 @@ public class TextPicker extends AppCompatEditText implements TextWatcher {
     public void afterTextChanged(Editable editable) {
         if (mask == null) return;
         if (!maskCheckFlag) return;
-        String txt = editTextLoopToNextChar(mask, editable.length() - 1);
+        String txt = TextUtils.editTextLoopToNextChar(mask, editable.length() - 1);
         TextPicker.super.getText().insert(editable.length() - 1, txt);
     }
 
-    // call in afterTextChanged event
-    private String editTextLoopToNextChar(String maskEdit, int position) {
-
-        String finalResult = "";
-        for (int i = position; i < maskEdit.length(); i++) {
-            if (maskEdit.charAt(i) != '#') {
-                finalResult += maskEdit.charAt(i);
-            } else
-                break;
-        }
-
-        return finalResult;
-    }
-
     // call for maskingEditText
-    private void maskingEditText(final String mask) {
-        super.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mask.length())}); //Setting length
+    private void maskingEditText(String mask) {
+        super.setFilters(TextUtils.setLengthEditText(mask)); //Setting length
     }
 
     // call for checking empty textbox

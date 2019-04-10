@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.edittextpicker.aliazaz.textpicker.TextPicker;
+import com.edittextpicker.aliazaz.TextPicker;
 
 public class MainActivity extends AppCompatActivity {
 
