@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.edittextpicker.aliazaz.TextPicker;
+import com.edittextpicker.aliazaz.EditTextPicker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean validateComponents() {
 
-        if (!((TextPicker) txtBoxRange).isEmptyTextBox())
+        if (!((EditTextPicker) txtBoxRange).isEmptyTextBox())
             return false;
 
-        if (!((TextPicker) txtBoxRange).isRangeTextValidate())
+        if (!((EditTextPicker) txtBoxRange).isRangeTextValidate())
             return false;
 
-        return ((TextPicker) txtBoxDefault).isTextEqual();
+        return ((EditTextPicker) txtBoxDefault).isTextEqual();
     }
 
     private void clearFields() {

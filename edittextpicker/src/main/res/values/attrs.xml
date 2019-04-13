@@ -6,7 +6,7 @@
     </declare-styleable>
 
     <!--TextBox-->
-    <declare-styleable name="TextPicker">
+    <declare-styleable name="EditTextPicker">
         <attr name="required" format="boolean" />
 
         <!--<attr name="pattern" format="string" />-->

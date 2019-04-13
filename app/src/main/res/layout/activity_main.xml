@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.edittextpicker.aliazaz.TextPicker
+    <com.edittextpicker.aliazaz.EditTextPicker
         android:id="@+id/txtBoxRange"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
         app:required="true"
         app:type="range" />
 
-    <com.edittextpicker.aliazaz.TextPicker
+    <com.edittextpicker.aliazaz.EditTextPicker
         android:id="@+id/txtBoxDefault"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
         app:required="true"
         app:type="equal" />
 
-    <com.edittextpicker.aliazaz.TextPicker
+    <com.edittextpicker.aliazaz.EditTextPicker
         android:id="@+id/txtMask"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
         app:mask="##-##-####"
         app:required="false" />
 
-    <com.edittextpicker.aliazaz.TextPicker
+    <com.edittextpicker.aliazaz.EditTextPicker
         android:id="@+id/textPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
