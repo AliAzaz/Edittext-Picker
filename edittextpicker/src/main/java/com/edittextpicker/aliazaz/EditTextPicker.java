@@ -100,6 +100,30 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         this.maxValue = maxValue;
     }
 
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public String getMask() {
+        return mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = mask;
+    }
+
+    public Boolean getReqFlag() {
+        return reqFlag;
+    }
+
+    public void setReqFlag(Boolean reqFlag) {
+        this.reqFlag = reqFlag;
+    }
+
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
     }
