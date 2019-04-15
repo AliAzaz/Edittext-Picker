@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean validateComponents() {
 
-        if (!((EditTextPicker) txtBoxRange).isEmptyTextBox())
-            return false;
-
         if (!((EditTextPicker) txtBoxRange).isRangeTextValidate())
             return false;
 
