@@ -10,11 +10,11 @@ import android.util.Log;
 
 public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
-    private float minValue, maxValue;
-    private Object defaultValue;
+    private float minvalue, maxvalue;
+    private Object defaultvalue;
     private String mask;
     private Integer type;
-    private Boolean reqFlag;
+    private Boolean required;
     static String TAG = EditTextPicker.class.getName();
     private boolean maskCheckFlag = true;
 
@@ -32,26 +32,26 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
             try {
                 //required flag
-                reqFlag = a.getBoolean(R.styleable.EditTextPicker_required, true);
+                required = a.getBoolean(R.styleable.EditTextPicker_required, true);
 
                 //For type -> range and equal
                 type = a.getInteger(R.styleable.EditTextPicker_type, 0);
                 if (type == 1) {
 
-                    minValue = a.getFloat(R.styleable.EditTextPicker_minValue, -1);
-                    maxValue = a.getFloat(R.styleable.EditTextPicker_maxValue, -1);
-                    defaultValue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1);
+                    minvalue = a.getFloat(R.styleable.EditTextPicker_minValue, -1);
+                    maxvalue = a.getFloat(R.styleable.EditTextPicker_maxValue, -1);
+                    defaultvalue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1);
 
-                    if (minValue == -1)
+                    if (minvalue == -1)
                         throw new RuntimeException("Min value not provided");
-                    if (maxValue == -1)
+                    if (maxvalue == -1)
                         throw new RuntimeException("Max value not provided");
 
                 } else if (type == 2) {
 
-                    defaultValue = a.getString(R.styleable.EditTextPicker_defaultValue);
+                    defaultvalue = a.getString(R.styleable.EditTextPicker_defaultValue);
 
-                    if (defaultValue == null)
+                    if (defaultvalue == null)
                         throw new RuntimeException("Default value not provided");
                 }
 
@@ -76,36 +76,28 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         super.addTextChangedListener(this);
     }
 
-    public Integer getType() {
-        return type;
+    public float getMinvalue() {
+        return minvalue;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setMinvalue(float minvalue) {
+        this.minvalue = minvalue;
     }
 
-    public float getMinValue() {
-        return minValue;
+    public float getMaxvalue() {
+        return maxvalue;
     }
 
-    public void setMinValue(float minValue) {
-        this.minValue = minValue;
+    public void setMaxvalue(float maxvalue) {
+        this.maxvalue = maxvalue;
     }
 
-    public float getMaxValue() {
-        return maxValue;
+    public Object getDefaultvalue() {
+        return defaultvalue;
     }
 
-    public void setMaxValue(float maxValue) {
-        this.maxValue = maxValue;
-    }
-
-    public Object getDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(Object defaultValue) {
-        this.defaultValue = defaultValue;
+    public void setDefaultvalue(Object defaultvalue) {
+        this.defaultvalue = defaultvalue;
     }
 
     public String getMask() {
@@ -116,12 +108,20 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         this.mask = mask;
     }
 
-    public Boolean getReqFlag() {
-        return reqFlag;
+    public Integer getType() {
+        return type;
     }
 
-    public void setReqFlag(Boolean reqFlag) {
-        this.reqFlag = reqFlag;
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Boolean getRequired() {
+        return required;
+    }
+
+    public void setRequired(Boolean required) {
+        this.required = required;
     }
 
     @Override
@@ -150,7 +150,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking empty textbox
     public boolean isEmptyTextBox() {
 
-        if (!reqFlag)
+        if (!required)
             return true;
 
         if (super.getText().toString().isEmpty()) {
@@ -171,18 +171,18 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking range textbox
     public boolean isRangeTextValidate() {
 
-        if (!reqFlag)
+        if (!required)
             return true;
 
         if (!isEmptyTextBox())
             return false;
 
-        if (Float.valueOf(super.getText().toString()) < minValue || Float.valueOf(super.getText().toString()) > maxValue) {
+        if (Float.valueOf(super.getText().toString()) < minvalue || Float.valueOf(super.getText().toString()) > maxvalue) {
 
-            if ((Float) defaultValue != -1) {
+            if ((Float) defaultvalue != -1) {
 
-                String dValue = String.valueOf(defaultValue);
-                if ((Float) defaultValue == Math.round((Float) defaultValue))
+                String dValue = String.valueOf(defaultvalue);
+                if ((Float) defaultvalue == Math.round((Float) defaultvalue))
                     dValue = (dValue.split("\\.")[0]);
 
                 boolean flag = (super.getText().toString().equals(String.valueOf(dValue)));
@@ -194,13 +194,13 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                     return true;
             }
 
-            String min = String.valueOf(minValue);
-            String max = String.valueOf(maxValue);
+            String min = String.valueOf(minvalue);
+            String max = String.valueOf(maxvalue);
 
-            if (minValue == Math.round(minValue))
+            if (minvalue == Math.round(minvalue))
                 min = (min.split("\\.")[0]);
 
-            if (maxValue == Math.round(maxValue))
+            if (maxvalue == Math.round(maxvalue))
                 max = (max.split("\\.")[0]);
 
             super.setError("Range is " + min + " to " + max + " !!");
@@ -220,18 +220,18 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking default value in textbox
     public boolean isTextEqual() {
 
-        if (!reqFlag)
+        if (!required)
             return true;
 
         if (!isEmptyTextBox())
             return false;
 
-        if (!super.getText().toString().equals(String.valueOf(defaultValue))) {
+        if (!super.getText().toString().equals(String.valueOf(defaultvalue))) {
 
-            super.setError("Not equal to default value: " + defaultValue + " !!");
+            super.setError("Not equal to default value: " + defaultvalue + " !!");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
-            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Not Equal to default value: " + defaultValue + "!!");
+            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Not Equal to default value: " + defaultvalue + "!!");
 
             invalidate();
             requestLayout();
