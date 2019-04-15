@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
-    private float minvalue, maxvalue;
+    private float min, max;
     private Object defaultvalue;
     private String mask;
     private Integer type;
@@ -38,13 +38,13 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                 type = a.getInteger(R.styleable.EditTextPicker_type, 0);
                 if (type == 1) {
 
-                    minvalue = a.getFloat(R.styleable.EditTextPicker_minValue, -1);
-                    maxvalue = a.getFloat(R.styleable.EditTextPicker_maxValue, -1);
+                    min = a.getFloat(R.styleable.EditTextPicker_minValue, -1);
+                    max = a.getFloat(R.styleable.EditTextPicker_maxValue, -1);
                     defaultvalue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1);
 
-                    if (minvalue == -1)
+                    if (min == -1)
                         throw new RuntimeException("Min value not provided");
-                    if (maxvalue == -1)
+                    if (max == -1)
                         throw new RuntimeException("Max value not provided");
 
                 } else if (type == 2) {
@@ -72,24 +72,20 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         }
     }
 
-    private void ImplementListeners() {
-        super.addTextChangedListener(this);
+    public float getMin() {
+        return min;
     }
 
-    public float getMinvalue() {
-        return minvalue;
+    public void setMin(float min) {
+        this.min = min;
     }
 
-    public void setMinvalue(float minvalue) {
-        this.minvalue = minvalue;
+    public float getMax() {
+        return max;
     }
 
-    public float getMaxvalue() {
-        return maxvalue;
-    }
-
-    public void setMaxvalue(float maxvalue) {
-        this.maxvalue = maxvalue;
+    public void setMax(float max) {
+        this.max = max;
     }
 
     public Object getDefaultvalue() {
@@ -122,6 +118,10 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
     public void setRequired(Boolean required) {
         this.required = required;
+    }
+
+    private void ImplementListeners() {
+        super.addTextChangedListener(this);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         if (!isEmptyTextBox())
             return false;
 
-        if (Float.valueOf(super.getText().toString()) < minvalue || Float.valueOf(super.getText().toString()) > maxvalue) {
+        if (Float.valueOf(super.getText().toString()) < min || Float.valueOf(super.getText().toString()) > max) {
 
             if ((Float) defaultvalue != -1) {
 
@@ -194,19 +194,19 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                     return true;
             }
 
-            String min = String.valueOf(minvalue);
-            String max = String.valueOf(maxvalue);
+            String minVal = String.valueOf(min);
+            String maxVal = String.valueOf(max);
 
-            if (minvalue == Math.round(minvalue))
-                min = (min.split("\\.")[0]);
+            if (min == Math.round(min))
+                minVal = (minVal.split("\\.")[0]);
 
-            if (maxvalue == Math.round(maxvalue))
-                max = (max.split("\\.")[0]);
+            if (max == Math.round(max))
+                maxVal = (maxVal.split("\\.")[0]);
 
-            super.setError("Range is " + min + " to " + max + " !!");
+            super.setError("Range is " + minVal + " to " + maxVal + " !!");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
-            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Range is " + min + " to " + max + "!!");
+            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Range is " + minVal + " to " + maxVal + "!!");
 
             invalidate();
             requestLayout();
