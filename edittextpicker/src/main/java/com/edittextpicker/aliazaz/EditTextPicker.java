@@ -13,6 +13,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     private float min, max;
     private Object defaultvalue;
     private String mask;
+    private String pattern;
     private Integer type;
     private Boolean required;
     static String TAG = EditTextPicker.class.getName();
@@ -33,6 +34,9 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
             try {
                 //required flag
                 required = a.getBoolean(R.styleable.EditTextPicker_required, true);
+
+                //Pattern
+                pattern = a.getString(R.styleable.EditTextPicker_pattern);
 
                 //For type -> range and equal
                 type = a.getInteger(R.styleable.EditTextPicker_type, 0);
@@ -171,10 +175,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking range textbox
     public boolean isRangeTextValidate() {
 
-        if (!required)
-            return true;
-
-        if (!isEmptyTextBox())
+        if (!initialChecking())
             return false;
 
         if (Float.valueOf(super.getText().toString()) < min || Float.valueOf(super.getText().toString()) > max) {
@@ -220,11 +221,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking default value in textbox
     public boolean isTextEqual() {
 
-        if (!required)
-            return true;
-
-        if (!isEmptyTextBox())
-            return false;
+        initialChecking();
 
         if (!super.getText().toString().equals(String.valueOf(defaultvalue))) {
 
@@ -240,6 +237,39 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         }
 
         return true;
+    }
+
+    public boolean checkingPattern() {
+
+        if (pattern == null)
+            return true;
+
+        if (!super.getText().toString().matches(pattern)) {
+            super.setError("Not match to pattern!!");
+            super.setFocusableInTouchMode(true);
+            super.requestFocus();
+            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Not match to pattern!!");
+
+            invalidate();
+            requestLayout();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean initialChecking() {
+
+        if (!required)
+            return false;
+
+        if (!isEmptyTextBox())
+            return;
+
+        if (!checkingPattern())
+            return;
+
     }
 
 }

@@ -81,14 +81,16 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:hint="Range of number 5-10"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/colorPrimary"
-        app:defaultValue="999"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:maxValue="10"
-        app:minValue="5"
+        app:defaultValue="0.0"
+        app:mask="##.##"
+        app:maxValue="40.0"
+        app:minValue="0.5"
         app:required="true"
         app:type="range" />
 
