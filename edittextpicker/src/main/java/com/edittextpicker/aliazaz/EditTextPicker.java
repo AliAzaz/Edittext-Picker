@@ -175,8 +175,9 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking range textbox
     public boolean isRangeTextValidate() {
 
-        if (!initialChecking())
-            return false;
+        if (!required) return true;
+        if (!isEmptyTextBox()) return false;
+        if (!checkingPattern()) return false;
 
         if (Float.valueOf(super.getText().toString()) < min || Float.valueOf(super.getText().toString()) > max) {
 
@@ -221,7 +222,9 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     // call for checking default value in textbox
     public boolean isTextEqual() {
 
-        initialChecking();
+        if (!required) return true;
+        if (!isEmptyTextBox()) return false;
+        if (!checkingPattern()) return false;
 
         if (!super.getText().toString().equals(String.valueOf(defaultvalue))) {
 
@@ -257,19 +260,6 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         }
 
         return true;
-    }
-
-    private boolean initialChecking() {
-
-        if (!required)
-            return false;
-
-        if (!isEmptyTextBox())
-            return;
-
-        if (!checkingPattern())
-            return;
-
     }
 
 }
