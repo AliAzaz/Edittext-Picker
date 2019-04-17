@@ -153,49 +153,36 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
     // call for checking empty textbox
     public boolean isEmptyTextBox() {
-
         if (!required)
             return true;
-
         if (super.getText().toString().isEmpty()) {
             Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Empty!!");
             super.setError("Required! ");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
-
             invalidate();
-            requestLayout();
-
             return false;
         }
-
         return true;
     }
 
     // call for checking range textbox
     public boolean isRangeTextValidate() {
-
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
         if (!checkingPattern()) return false;
 
         if (Float.valueOf(super.getText().toString()) < min || Float.valueOf(super.getText().toString()) > max) {
-
             if ((Float) defaultvalue != -1) {
+                Float dValue = Float.parseFloat(super.getText().toString());
+                if (Float.parseFloat(super.getText().toString()) == Math.round(Float.parseFloat(super.getText().toString())))
+                    dValue = Float.parseFloat(super.getText().toString().split("\\.")[0]);
 
-                String dValue = String.valueOf(defaultvalue);
-                if ((Float) defaultvalue == Math.round((Float) defaultvalue))
-                    dValue = (dValue.split("\\.")[0]);
-
-                boolean flag = (super.getText().toString().equals(String.valueOf(dValue)));
-
-                invalidate();
-                requestLayout();
-
-                if (flag)
+                if (dValue.equals(defaultvalue)) {
+                    invalidate();
                     return true;
+                }
             }
-
             String minVal = String.valueOf(min);
             String maxVal = String.valueOf(max);
 
@@ -209,56 +196,39 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
             super.setFocusableInTouchMode(true);
             super.requestFocus();
             Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Range is " + minVal + " to " + maxVal + "!!");
-
             invalidate();
-            requestLayout();
-
             return false;
         }
-
         return true;
     }
 
     // call for checking default value in textbox
     public boolean isTextEqual() {
-
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
         if (!checkingPattern()) return false;
-
         if (!super.getText().toString().equals(String.valueOf(defaultvalue))) {
-
             super.setError("Not equal to default value: " + defaultvalue + " !!");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
             Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Not Equal to default value: " + defaultvalue + "!!");
-
             invalidate();
-            requestLayout();
-
             return false;
         }
-
         return true;
     }
 
     public boolean checkingPattern() {
-
         if (pattern == null)
             return true;
-
         if (!super.getText().toString().matches(pattern)) {
             super.setError("Not match to pattern!!");
             super.setFocusableInTouchMode(true);
             super.requestFocus();
             Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Not match to pattern!!");
-
             invalidate();
-            requestLayout();
-
             return false;
         }
-
         return true;
     }
 

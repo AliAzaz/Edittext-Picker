@@ -8,9 +8,9 @@
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView1"
         android:layout_width="0dp"
-        android:layout_height="41dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
@@ -22,6 +22,23 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="Number between 0.5-40 *"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
     <TextView
         android:id="@+id/textView4"
@@ -94,11 +111,34 @@
         app:type="range" />
 
     <com.edittextpicker.aliazaz.EditTextPicker
+        android:id="@+id/txtBoxRangeMaskPat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:digits="0123456789."
+        android:hint="##.##"
+        android:inputType="number"
+        android:textColor="@color/colorPrimary"
+        app:defaultValue="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/txtBoxRange"
+        app:mask="##.##"
+        app:maxValue="40"
+        app:minValue="0.5"
+        app:pattern="^(\\d{2,2}\\.\\d{2,2})$"
+        app:required="true"
+        app:type="range" />
+
+    <com.edittextpicker.aliazaz.EditTextPicker
         android:id="@+id/txtBoxDefault"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:hint="default values is 'null'"
         android:textColor="@color/colorPrimary"
@@ -106,7 +146,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/txtBoxRange"
+        app:layout_constraintTop_toBottomOf="@+id/txtBoxRangeMaskPat"
         app:required="true"
         app:type="equal" />
 
@@ -153,10 +193,11 @@
         android:layout_width="343dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="8dp"
         android:text="SUBMIT"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.553"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
@@ -172,7 +213,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="292dp" />
+        app:layout_constraintGuide_begin="370dp" />
 
 
 </android.support.constraint.ConstraintLayout>

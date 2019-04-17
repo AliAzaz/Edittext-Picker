@@ -12,7 +12,7 @@ import com.edittextpicker.aliazaz.EditTextPicker;
 public class MainActivity extends AppCompatActivity {
 
     Button btnSubmit;
-    EditText txtBoxRange, txtBoxDefault, txtMask, textPhone;
+    EditText txtBoxRange, txtBoxRangeMaskPat, txtBoxDefault, txtMask, textPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializingComponents() {
         btnSubmit = findViewById(R.id.btnSubmit);
         txtBoxRange = findViewById(R.id.txtBoxRange);
+        txtBoxRangeMaskPat = findViewById(R.id.txtBoxRangeMaskPat);
         txtBoxDefault = findViewById(R.id.txtBoxDefault);
         txtMask = findViewById(R.id.txtMask);
         textPhone = findViewById(R.id.textPhone);
@@ -54,12 +55,16 @@ public class MainActivity extends AppCompatActivity {
         if (!((EditTextPicker) txtBoxRange).isRangeTextValidate())
             return false;
 
+        if (!((EditTextPicker) txtBoxRangeMaskPat).isRangeTextValidate())
+            return false;
+
         return ((EditTextPicker) txtBoxDefault).isTextEqual();
     }
 
     private void clearFields() {
 
         txtBoxRange.setText(null);
+        txtBoxRangeMaskPat.setText(null);
         txtBoxDefault.setText(null);
         txtMask.setText(null);
         textPhone.setText(null);
