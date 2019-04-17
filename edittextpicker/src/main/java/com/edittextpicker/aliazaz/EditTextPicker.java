@@ -219,6 +219,8 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     }
 
     public boolean checkingPattern() {
+        if (!required)
+            return true;
         if (pattern == null)
             return true;
         if (!super.getText().toString().matches(pattern)) {
