@@ -48,7 +48,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="Alphabets*"
+        android:text="AlphaNumeric*"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
