@@ -10,8 +10,8 @@ import android.util.Log;
 
 public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
-    private float min, max;
-    private Object defaultvalue;
+    private float min, max, floatdefaultvalue;
+    private String defaultvalue;
     private String mask;
     private String pattern;
     private Integer type;
@@ -44,7 +44,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
                     min = a.getFloat(R.styleable.EditTextPicker_minValue, -1);
                     max = a.getFloat(R.styleable.EditTextPicker_maxValue, -1);
-                    defaultvalue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1);
+                    floatdefaultvalue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1);
 
                     if (min == -1)
                         throw new RuntimeException("Min value not provided");
@@ -92,12 +92,28 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         this.max = max;
     }
 
-    public Object getDefaultvalue() {
+    public float getFloatdefaultvalue() {
+        return floatdefaultvalue;
+    }
+
+    public void setFloatdefaultvalue(float floatdefaultvalue) {
+        this.floatdefaultvalue = floatdefaultvalue;
+    }
+
+    public String getDefaultvalue() {
         return defaultvalue;
     }
 
-    public void setDefaultvalue(Object defaultvalue) {
+    public void setDefaultvalue(String defaultvalue) {
         this.defaultvalue = defaultvalue;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
     public String getMask() {
@@ -153,8 +169,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
     // call for checking empty textbox
     public boolean isEmptyTextBox() {
-        if (!required)
-            return true;
+        if (!required) return true;
         if (super.getText().toString().isEmpty()) {
             Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Empty!!");
             super.setError("Required! ");
@@ -173,12 +188,12 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         if (!checkingPattern()) return false;
 
         if (Float.valueOf(super.getText().toString()) < min || Float.valueOf(super.getText().toString()) > max) {
-            if ((Float) defaultvalue != -1) {
+            if (floatdefaultvalue != -1) {
                 Float dValue = Float.parseFloat(super.getText().toString());
                 if (Float.parseFloat(super.getText().toString()) == Math.round(Float.parseFloat(super.getText().toString())))
                     dValue = Float.parseFloat(super.getText().toString().split("\\.")[0]);
 
-                if (dValue.equals(defaultvalue)) {
+                if (dValue.equals(floatdefaultvalue)) {
                     invalidate();
                     return true;
                 }
@@ -203,26 +218,20 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     }
 
     // call for checking default value in textbox
-    public boolean isTextEqual() {
+    public boolean isTextEqualToPattern() {
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
-        if (!checkingPattern()) return false;
-        if (!super.getText().toString().equals(String.valueOf(defaultvalue))) {
-            super.setError("Not equal to default value: " + defaultvalue + " !!");
-            super.setFocusableInTouchMode(true);
-            super.requestFocus();
-            Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Not Equal to default value: " + defaultvalue + "!!");
-            invalidate();
-            return false;
+        if (!checkingPattern()) {
+            if (!super.getText().toString().equals(String.valueOf(defaultvalue))) return false;
         }
+        super.setError(null);
+        super.clearFocus();
+        invalidate();
         return true;
     }
 
     public boolean checkingPattern() {
-        if (!required)
-            return true;
-        if (pattern == null)
-            return true;
+        if (pattern == null) return true;
         if (!super.getText().toString().matches(pattern)) {
             super.setError("Not match to pattern!!");
             super.setFocusableInTouchMode(true);

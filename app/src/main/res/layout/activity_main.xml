@@ -133,6 +133,7 @@
         app:required="true"
         app:type="range" />
 
+    <!--Accept first 2 - 4 characters with 3 - 5 numbers-->
     <com.edittextpicker.aliazaz.EditTextPicker
         android:id="@+id/txtBoxDefault"
         android:layout_width="0dp"
@@ -147,6 +148,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/txtBoxRangeMaskPat"
+        app:pattern="[^0-9]{2,4}[0-9]{3,5}"
         app:required="true"
         app:type="equal" />
 

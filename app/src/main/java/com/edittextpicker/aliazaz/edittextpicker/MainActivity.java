@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         if (!((EditTextPicker) txtBoxRangeMaskPat).isRangeTextValidate())
             return false;
 
-        return ((EditTextPicker) txtBoxDefault).isTextEqual();
+        return ((EditTextPicker) txtBoxDefault).isTextEqualToPattern();
     }
 
     private void clearFields() {
