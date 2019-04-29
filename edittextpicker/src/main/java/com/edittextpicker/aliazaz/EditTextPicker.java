@@ -38,6 +38,14 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                 //Pattern
                 pattern = a.getString(R.styleable.EditTextPicker_pattern);
 
+                // For mask
+                mask = a.getString(R.styleable.EditTextPicker_mask);
+                if (mask != null) {
+                    if (!mask.trim().isEmpty()) {
+                        maskingEditText(mask);
+                    }
+                }
+
                 //For type -> range and equal
                 type = a.getInteger(R.styleable.EditTextPicker_type, 0);
                 if (type == 1) {
@@ -59,17 +67,9 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                         throw new RuntimeException("Default value not provided");
                 }
 
-                // For mask
-                mask = a.getString(R.styleable.EditTextPicker_mask);
-                if (mask != null) {
-                    if (!mask.trim().isEmpty()) {
-                        maskingEditText(mask);
-                    }
-                }
-
-
             } catch (Exception e) {
                 Log.e(TAG, "TextPicker: ", e);
+                throw e;
             } finally {
                 a.recycle();
             }
@@ -183,6 +183,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
     // call for checking range textbox
     public boolean isRangeTextValidate() {
+        if (type != 1) return true;
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
         if (!checkingPattern()) return false;
@@ -221,16 +222,17 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     public boolean isTextEqualToPattern() {
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
-        if (!checkingPattern()) {
-            if (!super.getText().toString().equals(String.valueOf(defaultvalue))) return false;
-        }
+        if (!checkingPattern())
+            if (type == 2) {
+                if (!super.getText().toString().equals(String.valueOf(defaultvalue))) return false;
+            } else return false;
         super.setError(null);
         super.clearFocus();
         invalidate();
         return true;
     }
 
-    public boolean checkingPattern() {
+    private boolean checkingPattern() {
         if (pattern == null) return true;
         if (!super.getText().toString().matches(pattern)) {
             super.setError("Not match to pattern!!");
