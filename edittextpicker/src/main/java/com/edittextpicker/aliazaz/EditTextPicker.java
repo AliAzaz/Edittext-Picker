@@ -159,6 +159,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         if (mask == null) return;
         if (!maskCheckFlag) return;
         String txt = TextUtils.editTextLoopToNextChar(mask, editable.length() - 1);
+        if (txt.equals("")) return;
         EditTextPicker.super.getText().insert(editable.length() - 1, txt);
     }
 
