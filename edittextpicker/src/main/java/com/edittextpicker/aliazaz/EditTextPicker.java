@@ -44,7 +44,8 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                     if (!mask.trim().isEmpty()) {
                         maskingEditText(mask);
                     }
-                }
+                } else
+                    EditTextPicker.super.removeTextChangedListener(this);
 
                 //For type -> range and equal
                 type = a.getInteger(R.styleable.EditTextPicker_type, 0);
@@ -158,8 +159,8 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     public void afterTextChanged(Editable editable) {
         if (mask == null) return;
         if (!maskCheckFlag) return;
-        String txt = TextUtils.editTextLoopToNextChar(mask, editable.length() - 1);
-        if (txt.equals("")) return;
+        StringBuilder txt = TextUtils.editTextLoopToNextChar(mask, editable.length() - 1);
+        if (txt.length() == 0) return;
         EditTextPicker.super.getText().insert(editable.length() - 1, txt);
     }
 

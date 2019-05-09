@@ -5,12 +5,12 @@ import android.text.InputFilter;
 final class TextUtils {
 
     // call in afterTextChanged event
-    public final static String editTextLoopToNextChar(String maskEdit, int position) {
+    public final static StringBuilder editTextLoopToNextChar(String maskEdit, int position) {
 
-        String finalResult = "";
+        StringBuilder finalResult = new StringBuilder();
         for (int i = position; i < maskEdit.length(); i++) {
             if (maskEdit.charAt(i) != '#') {
-                finalResult += maskEdit.charAt(i);
+                finalResult.append(maskEdit.charAt(i));
             } else
                 break;
         }
