@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -161,7 +162,11 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         if (!maskCheckFlag) return;
         StringBuilder txt = TextUtils.editTextLoopToNextChar(mask, editable.length() - 1);
         if (txt.length() == 0) return;
-        EditTextPicker.super.getText().insert(editable.length() - 1, txt);
+        //Input Filter work
+        InputFilter[] filters = editable.getFilters(); //get filter
+        editable.setFilters(new InputFilter[]{}); //reset filter
+        editable.insert(editable.length() - 1, txt);
+        editable.setFilters(filters); //restore filter
     }
 
     // call for maskingEditText
