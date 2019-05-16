@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
-    private float min, max, floatdefaultvalue;
+    private float minvalue, maxvalue, rangedefaultvalue;
     private String defaultvalue;
     private String mask;
     private String pattern;
@@ -52,13 +52,13 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                 type = a.getInteger(R.styleable.EditTextPicker_type, 0);
                 if (type == 1) {
 
-                    min = a.getFloat(R.styleable.EditTextPicker_minValue, -1);
-                    max = a.getFloat(R.styleable.EditTextPicker_maxValue, -1);
-                    floatdefaultvalue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1);
+                    minvalue = a.getFloat(R.styleable.EditTextPicker_minValue, -1);
+                    maxvalue = a.getFloat(R.styleable.EditTextPicker_maxValue, -1);
+                    rangedefaultvalue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1);
 
-                    if (min == -1)
+                    if (minvalue == -1)
                         throw new RuntimeException("Min value not provided");
-                    if (max == -1)
+                    if (maxvalue == -1)
                         throw new RuntimeException("Max value not provided");
 
                 } else if (type == 2) {
@@ -78,28 +78,28 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         }
     }
 
-    public float getMin() {
-        return min;
+    public float getMinvalue() {
+        return minvalue;
     }
 
-    public void setMin(float min) {
-        this.min = min;
+    public void setMinvalue(float minvalue) {
+        this.minvalue = minvalue;
     }
 
-    public float getMax() {
-        return max;
+    public float getMaxvalue() {
+        return maxvalue;
     }
 
-    public void setMax(float max) {
-        this.max = max;
+    public void setMaxvalue(float maxvalue) {
+        this.maxvalue = maxvalue;
     }
 
-    public float getFloatdefaultvalue() {
-        return floatdefaultvalue;
+    public float getRangedefaultvalue() {
+        return rangedefaultvalue;
     }
 
-    public void setFloatdefaultvalue(float floatdefaultvalue) {
-        this.floatdefaultvalue = floatdefaultvalue;
+    public void setRangedefaultvalue(float rangedefaultvalue) {
+        this.rangedefaultvalue = rangedefaultvalue;
     }
 
     public String getDefaultvalue() {
@@ -193,26 +193,26 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         if (type != 1) return true;
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
-        if (!checkingPattern()) return false;
+        if (!checkingTextPattern()) return false;
 
-        if (Float.valueOf(super.getText().toString()) < min || Float.valueOf(super.getText().toString()) > max) {
-            if (floatdefaultvalue != -1) {
+        if (Float.valueOf(super.getText().toString()) < minvalue || Float.valueOf(super.getText().toString()) > maxvalue) {
+            if (rangedefaultvalue != -1) {
                 Float dValue = Float.parseFloat(super.getText().toString());
                 if (Float.parseFloat(super.getText().toString()) == Math.round(Float.parseFloat(super.getText().toString())))
                     dValue = Float.parseFloat(super.getText().toString().split("\\.")[0]);
 
-                if (dValue.equals(floatdefaultvalue)) {
+                if (dValue.equals(rangedefaultvalue)) {
                     invalidate();
                     return true;
                 }
             }
-            String minVal = String.valueOf(min);
-            String maxVal = String.valueOf(max);
+            String minVal = String.valueOf(minvalue);
+            String maxVal = String.valueOf(maxvalue);
 
-            if (min == Math.round(min))
+            if (minvalue == Math.round(minvalue))
                 minVal = (minVal.split("\\.")[0]);
 
-            if (max == Math.round(max))
+            if (maxvalue == Math.round(maxvalue))
                 maxVal = (maxVal.split("\\.")[0]);
 
             super.setError("Range is " + minVal + " to " + maxVal + " !!");
@@ -229,7 +229,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
     public boolean isTextEqualToPattern() {
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
-        if (!checkingPattern())
+        if (!checkingTextPattern())
             if (type == 2) {
                 if (!super.getText().toString().equals(String.valueOf(defaultvalue))) return false;
             } else return false;
@@ -239,7 +239,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
         return true;
     }
 
-    private boolean checkingPattern() {
+    private boolean checkingTextPattern() {
         if (pattern == null) return true;
         if (!super.getText().toString().matches(pattern)) {
             super.setError("Not match to pattern!!");

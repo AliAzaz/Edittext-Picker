@@ -4,15 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-
-import com.edittextpicker.aliazaz.EditTextPicker;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnSubmit;
-    EditText txtBoxRange, txtBoxRangeMaskPat, txtBoxDefault, txtMask, textPhone;
+    com.edittextpicker.aliazaz.EditTextPicker txtBoxRange, txtBoxRangeMaskPat, txtBoxDefault, txtMask, textPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +44,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private boolean validateComponents() {
 
-        if (!((EditTextPicker) txtBoxRange).isRangeTextValidate())
+        if (!txtBoxRange.isRangeTextValidate())
             return false;
 
-        if (!((EditTextPicker) txtBoxRangeMaskPat).isRangeTextValidate())
+        if (!txtBoxRangeMaskPat.isRangeTextValidate())
             return false;
 
-        return ((EditTextPicker) txtBoxDefault).isTextEqualToPattern();
+        return txtBoxDefault.isTextEqualToPattern();
     }
 
     private void clearFields() {
