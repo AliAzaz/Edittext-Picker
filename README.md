@@ -34,7 +34,7 @@ allprojects {
 Now, add the dependency in app.gradle:
 ```sh
 dependencies {
-    implementation 'com.github.AliAzaz:Edittext-Library:1.0.0'
+    implementation 'com.github.AliAzaz:Edittext-Library:1.0.1'
 }
 ```
 
