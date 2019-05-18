@@ -11,7 +11,7 @@ Following are the functions that EditTextPicker provides:
   - Range checking
 
 #### Description:
-Please see the description of this library on my article ***[Edittext Library]()***
+Please see the description of this library on my article ***[Edittext Library]()***(Coming Soon)
 
 # Images
 
