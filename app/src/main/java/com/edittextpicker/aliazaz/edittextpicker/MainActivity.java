@@ -9,7 +9,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Button btnSubmit;
-    com.edittextpicker.aliazaz.EditTextPicker txtBoxRange, txtBoxRangeMaskPat, txtBoxDefault, txtMask, textPhone;
+    com.edittextpicker.aliazaz.EditTextPicker txtBoxRange, txtBoxRangeMaskPat, txtBoxDefault, txtDate, txtPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         txtBoxRange = findViewById(R.id.txtBoxRange);
         txtBoxRangeMaskPat = findViewById(R.id.txtBoxRangeMaskPat);
         txtBoxDefault = findViewById(R.id.txtBoxDefault);
-        txtMask = findViewById(R.id.txtMask);
-        textPhone = findViewById(R.id.textPhone);
+        txtDate = findViewById(R.id.txtDate);
+        txtPhone = findViewById(R.id.txtPhone);
     }
 
     private void settingListeners() {
@@ -54,7 +54,13 @@ public class MainActivity extends AppCompatActivity {
         if (!txtBoxRangeMaskPat.isRangeTextValidate())
             return false;
 
-        return txtBoxDefault.isTextEqualToPattern();
+        if (!txtBoxDefault.isTextEqualToPattern())
+            return false;
+
+        if (!txtDate.isEmptyTextBox())
+            return false;
+
+        return txtPhone.isEmptyTextBox();
     }
 
     private void clearFields() {
@@ -62,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         txtBoxRange.setText(null);
         txtBoxRangeMaskPat.setText(null);
         txtBoxDefault.setText(null);
-        txtMask.setText(null);
-        textPhone.setText(null);
+        txtDate.setText(null);
+        txtPhone.setText(null);
 
     }
 }

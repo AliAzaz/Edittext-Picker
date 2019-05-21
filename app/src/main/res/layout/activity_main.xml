@@ -142,11 +142,11 @@
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/txtBoxRangeMaskPat"
         app:pattern="[^0-9]{2,4}[0-9]{3,5}"
-        app:required="true"
+        app:required="false"
         app:type="equal" />
 
     <com.edittextpicker.aliazaz.EditTextPicker
-        android:id="@+id/txtMask"
+        android:id="@+id/txtDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -163,7 +163,7 @@
         app:required="false" />
 
     <com.edittextpicker.aliazaz.EditTextPicker
-        android:id="@+id/textPhone"
+        android:id="@+id/txtPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -175,9 +175,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/txtMask"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate"
         app:mask="+92(###)####-###"
-        app:required="false" />
+        app:required="true" />
 
     <Button
         android:id="@+id/btnSubmit"
@@ -189,7 +189,7 @@
         android:text="SUBMIT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPhone" />
 
 
 </android.support.constraint.ConstraintLayout>
