@@ -1,6 +1,6 @@
 # EditTextPicker Library
 
-[![Build Status](https://travis-ci.org/AliAzaz/Edittext-Library.svg?branch=master)](https://travis-ci.org/AliAzaz/Edittext-Library) [![](https://jitpack.io/v/AliAzaz/Edittext-Library.svg)](https://jitpack.io/#AliAzaz/Edittext-Library) [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-EditTextPicker-green.svg?style=flat )]( https://android-arsenal.com/details/1/7671 )
+[![Build Status](https://travis-ci.org/AliAzaz/Edittext-Library.svg?branch=master)](https://travis-ci.org/AliAzaz/Edittext-Library) [![](https://jitpack.io/v/AliAzaz/Edittext-Library.svg)](https://jitpack.io/#AliAzaz/Edittext-Library) [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-EditTextPicker-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7671)
 
 Edittext library by which you can easily achieve lot of functionalities though directly implemented some lines of code in XML and on Java side.
 Following are the functions that EditTextPicker provides:
