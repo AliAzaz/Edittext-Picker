@@ -185,6 +185,8 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
             invalidate();
             return false;
         }
+        super.setError(null);
+        invalidate();
         return true;
     }
 
@@ -222,6 +224,8 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
             invalidate();
             return false;
         }
+        super.setError(null);
+        invalidate();
         return true;
     }
 
@@ -234,7 +238,6 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
                 if (!super.getText().toString().equals(String.valueOf(defaultvalue))) return false;
             } else return false;
         super.setError(null);
-        super.clearFocus();
         invalidate();
         return true;
     }
