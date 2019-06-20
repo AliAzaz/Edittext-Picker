@@ -176,6 +176,7 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
 
     // call for checking empty textbox
     public boolean isEmptyTextBox() {
+        clearError();
         if (!required) return true;
         if (super.getText().toString().isEmpty()) {
             Log.i(this.getContext().getClass().getName(), this.getContext().getResources().getResourceEntryName(super.getId()) + ": Empty!!");
@@ -185,13 +186,14 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
             invalidate();
             return false;
         }
-        super.setError(null);
+        clearError();
         invalidate();
         return true;
     }
 
     // call for checking range textbox
     public boolean isRangeTextValidate() {
+        clearError();
         if (type != 1) return true;
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
@@ -224,20 +226,21 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
             invalidate();
             return false;
         }
-        super.setError(null);
+        clearError();
         invalidate();
         return true;
     }
 
     // call for checking default value in textbox
     public boolean isTextEqualToPattern() {
+        clearError();
         if (!required) return true;
         if (!isEmptyTextBox()) return false;
         if (!checkingTextPattern())
             if (type == 2) {
                 if (!super.getText().toString().equals(String.valueOf(defaultvalue))) return false;
             } else return false;
-        super.setError(null);
+        clearError();
         invalidate();
         return true;
     }
@@ -253,6 +256,10 @@ public class EditTextPicker extends AppCompatEditText implements TextWatcher {
             return false;
         }
         return true;
+    }
+
+    private void clearError() {
+        super.setError(null);
     }
 
 }
