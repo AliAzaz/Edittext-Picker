@@ -10,17 +10,16 @@ Following are the functions that EditTextPicker provides:
   - Pattern checking
   - Range checking
 
-#### Description:
+## Description:
 Please see the description of this library on my article ***[Edittext Picker Library](https://medium.com/@ali.azaz.alam/edittext-picker-library-4c71ae7d7863)***
 
-# Images
+## Some Output Screenshots
 
-<img alt="Pic-1" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic1.png"/>
-<img alt="Pic-2" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic2.png"/>
+<img alt="Pic-1" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic1.png"/> <img alt="Pic-2" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic2.png"/>
 
 ## How to use it??
 
-### Gradle
+### Implementation 
 In project.gradle add this code it in root build.gradle at the end of repositories:
 ```sh
 allprojects {
@@ -37,6 +36,8 @@ dependencies {
     implementation 'com.github.AliAzaz:Edittext-Library:X.X.X'
 }
 ```
+
+## Quick Usage
 
 ### XML
 Note: By default required is true. But if you don't want to validate specific edittext then simply set it to false: 
@@ -108,6 +109,18 @@ Implement this code in submit button click
     if (!txtBoxDefault.isTextEqualToPattern())
                 return;
 ```
+
+
+CONNECT👍
+
+Medium: https://medium.com/@ali.azaz.alam
+
+Twitter: https://twitter.com/AliAzazAlam1
+
+Github: https://github.com/aliazaz
+
+LinkedIn: https://www.linkedin.com/in/aliazazalam/
+
 
 ## LICENSE
 Distributed under the MIT license. See [LICENSE](https://github.com/AliAzaz/Edittext-Library/blob/master/LICENSE) information.
