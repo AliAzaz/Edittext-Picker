@@ -2,19 +2,15 @@ language: android
 
 android:
   components:
-    - build-tools-29.0.2
     - android-29
+    - build-tools-29.0.2
     - tools
     - platform-tools
     - extra-android-m2repository
-  licenses:
-    - 'android-sdk-preview-license-.+'
-    - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
 
 before_install:
   - yes | sdkmanager "platforms;android-29"
   - chmod +x gradlew
 
 script:
-   - ./gradlew clean build
+  - ./gradlew clean assembleDebug assembleRelease testDebug
