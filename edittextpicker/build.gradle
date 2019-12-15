@@ -24,6 +24,10 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 ext{
@@ -32,6 +36,7 @@ ext{
     test = '1.2.0'
     coreKtx = '1.1.0'
     junit = '4.12'
+    junit_ext = '1.1.1'
 }
 
 
@@ -39,9 +44,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat"
+    androidTestImplementation "androidx.test.ext:junit:$junit_ext"
     implementation "androidx.core:core-ktx:$coreKtx"
     testImplementation "junit:junit:$junit"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
 }
