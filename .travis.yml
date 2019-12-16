@@ -9,10 +9,8 @@ android:
     - extra-android-m2repository
 
 before_install:
-  - yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager "build-tools;29.0.2"
   - chmod +x gradlew
 
 script:
   - ./gradlew clean assembleDebug assembleRelease testDebug
-
-
