@@ -29,6 +29,9 @@ allprojects {
 	}
 }
 ```
+```sh
+Note: In future the new amendments will only reflect on AndroidX support
+```
 
 Now, add the dependency in app.gradle:
 ```sh
