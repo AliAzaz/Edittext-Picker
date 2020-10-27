@@ -4,10 +4,10 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import androidx.appcompat.widget.AppCompatEditText
-import com.edittextpicker.aliazaz.TextUtils.editTextLoopToNextChar
-import com.edittextpicker.aliazaz.TextUtils.setLengthEditText
+import com.edittextpicker.aliazaz.utils.TextUtils.editTextLoopToNextChar
+import com.edittextpicker.aliazaz.utils.TextUtils.setLengthEditText
+import timber.log.Timber
 import kotlin.math.roundToLong
 
 class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText(context, attrs), TextWatcher {
@@ -18,7 +18,7 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
     var mask: String? = null
     var pattern: String? = null
     var type: Int = 0
-    var required: Boolean? = true
+    var required: Boolean = true
     private var maskCheckFlag = true
 
     companion object {
@@ -26,10 +26,10 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
     }
 
     init {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
         super.addTextChangedListener(this)
-    }
-
-    init {
         if (attrs != null) {
             val a = context.theme.obtainStyledAttributes(
                     attrs,
@@ -65,13 +65,14 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
                     if (defaultvalue == null) throw RuntimeException("Default value not provided")
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "TextPicker: ", e)
+                Timber.e("TextPicker: %s", e.message)
                 throw e
             } finally {
                 a.recycle()
             }
         }
     }
+
 
     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
@@ -96,10 +97,11 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
     val isEmptyTextBox: Boolean
         get() {
             clearError()
-            if (!required!!) return true
+            if (!required) return true
             if (super.getText().toString().isEmpty()) {
-                Log.i(this.context.javaClass.name, this.context.resources.getResourceEntryName(super.getId())?.let { "$it:" } + " Empty!!")
-                super.setError("Required!!")
+                Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
+                        ?: "%s", " Empty")
+                super.setError("Required")
                 super.setFocusableInTouchMode(true)
                 super.requestFocus()
                 invalidate()
@@ -115,10 +117,10 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
         get() {
             clearError()
             if (type != 1) return true
-            if (!required!!) return true
+            if (!required) return true
             if (!isEmptyTextBox) return false
             if (!checkingTextPattern()) return false
-            if (java.lang.Float.valueOf(super.getText().toString()) < minvalue || java.lang.Float.valueOf(super.getText().toString()) > maxvalue) {
+            if (super.getText().toString().toFloat() < minvalue || super.getText().toString().toFloat() > maxvalue) {
                 if (rangedefaultvalue != -1f) {
                     var dValue = super.getText().toString().toFloat()
                     if (super.getText().toString().toFloat() == super.getText().toString().toFloat().roundToLong().toFloat()) dValue = super.getText().toString().split("\\.").toTypedArray()[0].toFloat()
@@ -129,12 +131,13 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
                 }
                 var minVal = minvalue.toString()
                 var maxVal = maxvalue.toString()
-                if (minvalue == minvalue.roundToLong().toFloat()) minVal = minVal.split("\\.").toTypedArray()[0]
-                if (maxvalue == maxvalue.roundToLong().toFloat()) maxVal = maxVal.split("\\.").toTypedArray()[0]
-                super.setError("Range is $minVal to $maxVal !!")
+                if (minvalue == minvalue.roundToLong().toFloat()) minVal = minVal.split(".").toTypedArray()[0]
+                if (maxvalue == maxvalue.roundToLong().toFloat()) maxVal = maxVal.split(".").toTypedArray()[0]
+                super.setError("Range is $minVal to $maxVal ")
                 super.setFocusableInTouchMode(true)
                 super.requestFocus()
-                Log.i(this.context.javaClass.name, this.context.resources.getResourceEntryName(super.getId())?.let { "$it:" } + " Range is " + minVal + " to " + maxVal + "!!")
+                Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
+                        ?: "%s", " The defined range is $minVal to $maxVal ")
                 invalidate()
                 return false
             }
@@ -147,7 +150,7 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
     val isTextEqualToPattern: Boolean
         get() {
             clearError()
-            if (!required!!) return true
+            if (!required) return true
             if (!isEmptyTextBox) return false
             if (!checkingTextPattern())
                 return when {
@@ -166,10 +169,11 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
         pattern?.let {
             return when {
                 !super.getText().toString().matches(Regex(pattern!!)) -> {
-                    super.setError("Not match to pattern!!")
+                    super.setError("Not match the pattern")
                     super.setFocusableInTouchMode(true)
                     super.requestFocus()
-                    Log.i(this.context.javaClass.name, this.context.resources.getResourceEntryName(super.getId())?.let { "$it:" } + " Not match to pattern!!")
+                    Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
+                            ?: "%s", "  Not match the pattern")
                     invalidate()
                     false
                 }

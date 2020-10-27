@@ -20,7 +20,9 @@
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtBoxRange"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -36,7 +38,9 @@
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtBoxRangeMaskPat"
         app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
     <TextView
@@ -51,7 +55,9 @@
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtBoxDefault"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
@@ -66,7 +72,9 @@
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDate"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
@@ -81,7 +89,9 @@
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPhone"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <com.edittextpicker.aliazaz.EditTextPicker
@@ -150,7 +160,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:hint="##-##-####"
         android:inputType="number"
@@ -176,8 +186,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/txtDate"
-        app:mask="+92(###)####-###"
-        app:required="true" />
+        app:mask="+92(###)####-###" />
 
     <Button
         android:id="@+id/btnSubmit"

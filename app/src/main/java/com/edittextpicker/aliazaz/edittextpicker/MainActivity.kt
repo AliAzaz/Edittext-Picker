@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private fun settingListeners() {
         btnSubmit.setOnClickListener {
             if (validateComponents()) {
-                Toast.makeText(this@MainActivity, "Successfully submitted!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Successfully submitted", Toast.LENGTH_SHORT).show()
                 clearFields()
             }
         }
