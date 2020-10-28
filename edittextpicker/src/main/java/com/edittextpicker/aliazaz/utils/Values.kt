@@ -1,4 +1,4 @@
-package com.edittextpicker.aliazaz
+package com.edittextpicker.aliazaz.utils
 
 data class Values(var minvalue: Float = -1f,
                   var maxvalue: Float = -1f,
