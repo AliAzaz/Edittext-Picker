@@ -9,7 +9,7 @@ android:
     - extra-android-m2repository
 
 before_install:
-  - yes | sdkmanager "build-tools;29.0.3"
+  - yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;29.0.3"
   - chmod +x gradlew
 
 script:
