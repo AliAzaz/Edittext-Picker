@@ -20,13 +20,17 @@ class MainActivity : AppCompatActivity() {
                 clearFields()
             }
         }
+
+//        val edut = EditTextPicker(this).builder(Values().minvalue)
+
     }
 
     private fun validateComponents(): Boolean {
-        if (!txtBoxRange.isRangeTextValidate) return false
-        if (!txtBoxRangeMaskPat.isRangeTextValidate) return false
-        if (!txtBoxDefault.isTextEqualToPattern) return false
-        return if (!txtDate.isEmptyTextBox) false else txtPhone.isEmptyTextBox
+        if (!txtBoxRange.isRangeTextValidate()) return false
+        if (!txtBoxRangeMaskPat.isRangeTextValidate()) return false
+        if (!txtBoxDefault.isTextEqualToPattern()) return false
+        if (!txtDate.isEmptyTextBox()) return false
+        return txtPhone.isEmptyTextBox()
     }
 
     private fun clearFields() {

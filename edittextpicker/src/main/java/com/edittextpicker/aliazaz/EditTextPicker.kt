@@ -1,68 +1,142 @@
 package com.edittextpicker.aliazaz
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
-import com.edittextpicker.aliazaz.utils.TextUtils.editTextLoopToNextChar
-import com.edittextpicker.aliazaz.utils.TextUtils.setLengthEditText
+import com.edittextpicker.aliazaz.repository.BaseTextWatcher
+import com.edittextpicker.aliazaz.utils.ValuesUtils
+import com.edittextpicker.aliazaz.utils.clearError
+import com.edittextpicker.aliazaz.utils.setMaskEditTextLength
 import timber.log.Timber
 import kotlin.math.roundToLong
 
-class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText(context, attrs), TextWatcher {
+/*
+* Update by: Ali Azaz Alam
+* */
+class EditTextPicker : AppCompatEditText {
+
+    var type: Int = 0
+
+    /*
+    * For Type range: Required minvalue, maxvalue and its corresponding default value
+    * */
     var minvalue: Float = -1f
     var maxvalue: Float = -1f
     var rangedefaultvalue: Float = -1f
-    var defaultvalue: String? = null
-    var mask: String? = null
-    var pattern: String? = null
-    var type: Int = 0
-    var required: Boolean = true
-    private var maskCheckFlag = true
 
-    companion object {
-        var TAG = EditTextPicker::class.java.name
-    }
+    /*
+    * For Type equal: Required pattern and its corresponding default value
+    * */
+    var defaultvalue: String? = null
+    var pattern: String? = null
+
+    /*
+    * Mask and Required: Both are optional
+    * */
+    var mask: String? = null
+    var required: Boolean = true
+
+    /*
+    * Initializing TextWatcher
+    * */
+    private var baseTextWatcher: BaseTextWatcher? = null
+
 
     init {
+        /*
+        * Initializing timber log only for debug state
+        * */
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        super.addTextChangedListener(this)
-        if (attrs != null) {
-            val a = context.theme.obtainStyledAttributes(
-                    attrs,
-                    R.styleable.EditTextPicker,
-                    0, 0
+    }
+
+
+    /*
+    * Initialize class with only context pass as an argument
+    * */
+    constructor(context: Context) : super(context)
+
+
+    /*
+    * Initialize class with context and attributeSet pass as an argument
+    * */
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        initialize(context, attrs)
+    }
+
+
+    /*
+    * Initialize class with context, attributeSet and defaultStyle pass as an argument
+    * */
+    constructor(context: Context, attrs: AttributeSet?, defaultStyle: Int) : super(context, attrs, defaultStyle) {
+        initialize(context, attrs)
+    }
+
+
+    /*
+    * Get attribute setter properties from xml and set it to the specific variables
+    * */
+    private fun initialize(context: Context, attrs: AttributeSet?) {
+        attrs?.let { item ->
+            val a = context.obtainStyledAttributes(
+                    item,
+                    R.styleable.EditTextPicker
             )
             try {
-                //required flag
-                required = a.getBoolean(R.styleable.EditTextPicker_required, true)
+                a.run {
+                    /*
+                    * 1. Setting required attribute value
+                    * 2. Default value is 'true'
+                    * 3. Optional
+                    * */
+                    required = getBoolean(R.styleable.EditTextPicker_required, true)
 
-                //Pattern
-                pattern = a.getString(R.styleable.EditTextPicker_pattern)
 
-                // For mask
-                mask = a.getString(R.styleable.EditTextPicker_mask)
-                if (mask == null) super@EditTextPicker.removeTextChangedListener(this)
-                else {
-                    if (mask!!.trim { it <= ' ' }.isNotEmpty()) {
-                        maskingEditText(mask!!)
+                    /*
+                    * 1. Setting pattern attribute value
+                    * 2. Optional
+                    * */
+                    pattern = getString(R.styleable.EditTextPicker_pattern)
+
+
+                    /*
+                    * 1. Setting mask attribute value
+                    * 2. Initializing TextWatcher -> if mask value is not null else remove initialized TextWatcher
+                    * */
+                    mask = getString(R.styleable.EditTextPicker_mask)
+                    if (mask.isNullOrEmpty()) removeTextChangedListener(baseTextWatcher)
+                    else {
+                        baseTextWatcher = BaseTextWatcher(mask)
+                        addTextChangedListener(baseTextWatcher)
+                        if (mask.toString().trim { it <= ' ' }.isNotEmpty()) {
+                            setMaskEditTextLength(this@EditTextPicker, mask!!)
+                        }
                     }
-                }
 
-                //For type -> range and equal
-                type = a.getInteger(R.styleable.EditTextPicker_type, 0)
-                if (type == 1) {
-                    minvalue = a.getFloat(R.styleable.EditTextPicker_minValue, -1f)
-                    maxvalue = a.getFloat(R.styleable.EditTextPicker_maxValue, -1f)
-                    rangedefaultvalue = a.getFloat(R.styleable.EditTextPicker_defaultValue, -1f)
-                    if (minvalue == -1f) throw RuntimeException("Min value not provided")
-                    if (maxvalue == -1f) throw RuntimeException("Max value not provided")
-                } else if (type == 2) {
-                    defaultvalue = a.getString(R.styleable.EditTextPicker_defaultValue)
-                    if (defaultvalue == null) throw RuntimeException("Default value not provided")
+
+                    /*
+                    * 1. Setting type attribute value whether it's range and equal
+                    * 2. For range ->
+                    *   i) Required min and max value (float)
+                    *   ii) Define default value is Optional
+                    * 3. For equal ->
+                    *   i) Required pattern value
+                    *   ii) Define default value is Optional
+                    * */
+                    type = getInteger(R.styleable.EditTextPicker_type, 0)
+                    if (type == 1) {
+                        minvalue = getFloat(R.styleable.EditTextPicker_minValue, -1f)
+                        maxvalue = getFloat(R.styleable.EditTextPicker_maxValue, -1f)
+                        rangedefaultvalue = getFloat(R.styleable.EditTextPicker_defaultValue, -1f)
+                        if (minvalue == -1f) throw RuntimeException("Min value attribute not provided in xml")
+                        if (maxvalue == -1f) throw RuntimeException("Max value attribute not provided in xml")
+                    } else if (type == 2) {
+                        pattern = getString(R.styleable.EditTextPicker_pattern)
+                        defaultvalue = getString(R.styleable.EditTextPicker_defaultValue)
+                        if (pattern == null) throw RuntimeException("Pattern value attribute not provided in xml")
+                        if (defaultvalue == null) defaultvalue = ""
+                    }
                 }
             } catch (e: Exception) {
                 Timber.e("TextPicker: %s", e.message)
@@ -74,111 +148,104 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
     }
 
 
-    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-        mask?.let { maskCheckFlag = i2 != 0 }
+    /*
+    * Validating EditText: Identifying it's empty or not
+    * */
+    @JvmOverloads
+    fun isEmptyTextBox(customError: String? = null): Boolean {
+        clearError(this)
+        if (!required) return true
+        if (super.getText().toString().isEmpty()) {
+            Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
+                    ?: "%s", " Empty")
+            super.setError(customError ?: "Required")
+            super.setFocusableInTouchMode(true)
+            super.requestFocus()
+            invalidate()
+            return false
+        }
+        invalidate()
+        return true
     }
 
-    override fun afterTextChanged(editable: Editable) {
-        mask?.let {
-            if (!maskCheckFlag) return
-            val txt = editTextLoopToNextChar(mask!!, editable.length - 1)
-            if (txt.isEmpty()) return
-            //Input Filter work
-            val filters = editable.filters //get filter
-            editable.filters = arrayOf() //reset filter
-            editable.insert(editable.length - 1, txt)
-            editable.filters = filters //restore filter
+
+    /*
+    * Access this functionality by setting type = range
+    * This validation identifying whether EditText fulfilling specified min and max range or defualtValue or not.
+    * */
+    @JvmOverloads
+    fun isRangeTextValidate(customError: String? = null): Boolean {
+        clearError(this)
+        if (type == 2) return true
+        if (!required) return true
+        if (!isEmptyTextBox()) return false
+        if (!checkingTextPattern(null)) return false
+        if (super.getText().toString().toFloat() < minvalue || super.getText().toString().toFloat() > maxvalue) {
+            if (rangedefaultvalue != -1f) {
+                var dValue = super.getText().toString().toFloat()
+                if (super.getText().toString().toFloat() == super.getText().toString().toFloat().roundToLong().toFloat())
+                    dValue = super.getText().toString().split("\\.").toTypedArray()[0].toFloat()
+                if (dValue == rangedefaultvalue) {
+                    invalidate()
+                    return true
+                }
+            }
+            var minVal = minvalue.toString()
+            var maxVal = maxvalue.toString()
+            if (minvalue == minvalue.roundToLong().toFloat()) minVal = minVal.split(".").toTypedArray()[0]
+            if (maxvalue == maxvalue.roundToLong().toFloat()) maxVal = maxVal.split(".").toTypedArray()[0]
+            super.setError(customError ?: "The range is from $minVal to $maxVal ")
+            super.setFocusableInTouchMode(true)
+            super.requestFocus()
+            Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
+                    ?: "%s", " The defined range is from $minVal to $maxVal ")
+            invalidate()
+            return false
         }
+        invalidate()
+        return true
     }
 
-    // call for checking empty textbox
-    val isEmptyTextBox: Boolean
-        get() {
-            clearError()
-            if (!required) return true
-            if (super.getText().toString().isEmpty()) {
-                Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
-                        ?: "%s", " Empty")
-                super.setError("Required")
-                super.setFocusableInTouchMode(true)
-                super.requestFocus()
-                invalidate()
-                return false
-            }
-            clearError()
-            invalidate()
-            return true
-        }
 
-    // call for checking range textbox
-    val isRangeTextValidate: Boolean
-        get() {
-            clearError()
-            if (type != 1) return true
-            if (!required) return true
-            if (!isEmptyTextBox) return false
-            if (!checkingTextPattern()) return false
-            if (super.getText().toString().toFloat() < minvalue || super.getText().toString().toFloat() > maxvalue) {
-                if (rangedefaultvalue != -1f) {
-                    var dValue = super.getText().toString().toFloat()
-                    if (super.getText().toString().toFloat() == super.getText().toString().toFloat().roundToLong().toFloat()) dValue = super.getText().toString().split("\\.").toTypedArray()[0].toFloat()
-                    if (dValue == rangedefaultvalue) {
-                        invalidate()
-                        return true
-                    }
+    /*
+    * Access this functionality by setting type = equal
+    * This validation identifying whether EditText passing defined regex pattern or equal to default value.
+    * */
+    @JvmOverloads
+    fun isTextEqualToPattern(customError: String? = null): Boolean {
+        clearError(this)
+        if (!required) return true
+        if (!isEmptyTextBox()) return false
+        if (!checkingTextPattern(customError))
+            return when {
+                type == 2 && super.getText().toString() == defaultvalue.toString() -> {
+                    clearError(this)
+                    invalidate()
+                    true
                 }
-                var minVal = minvalue.toString()
-                var maxVal = maxvalue.toString()
-                if (minvalue == minvalue.roundToLong().toFloat()) minVal = minVal.split(".").toTypedArray()[0]
-                if (maxvalue == maxvalue.roundToLong().toFloat()) maxVal = maxVal.split(".").toTypedArray()[0]
-                super.setError("Range is $minVal to $maxVal ")
-                super.setFocusableInTouchMode(true)
-                super.requestFocus()
-                Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
-                        ?: "%s", " The defined range is $minVal to $maxVal ")
-                invalidate()
-                return false
+                else -> false
             }
-            clearError()
-            invalidate()
-            return true
-        }
+        return true
+    }
 
-    // call for checking default value in textbox
-    val isTextEqualToPattern: Boolean
-        get() {
-            clearError()
-            if (!required) return true
-            if (!isEmptyTextBox) return false
-            if (!checkingTextPattern())
-                return when {
-                    type == 2 && super.getText().toString() == defaultvalue.toString() -> {
-                        clearError()
-                        invalidate()
-                        true
-                    }
-                    else -> false
-                }
-            return true
-        }
 
-    // Checking pattern
-    private fun checkingTextPattern(): Boolean {
+    /*
+    * Private function that's using to check EditText matches to pattern or not and return this flag
+    * */
+    private fun checkingTextPattern(customError: String?): Boolean {
         pattern?.let {
             return when {
                 !super.getText().toString().matches(Regex(pattern!!)) -> {
-                    super.setError("Not match the pattern")
+                    super.setError(customError ?: "Not match with pattern")
                     super.setFocusableInTouchMode(true)
                     super.requestFocus()
                     Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
-                            ?: "%s", "  Not match the pattern")
+                            ?: "%s", "  Not matching with defined regex pattern")
                     invalidate()
                     false
                 }
                 else -> {
-                    clearError()
+                    clearError(this)
                     invalidate()
                     true
                 }
@@ -186,9 +253,8 @@ class EditTextPicker(context: Context, attrs: AttributeSet?) : AppCompatEditText
         } ?: return true
     }
 
-    // For maskingEditText length setting
-    private fun maskingEditText(mask: String) = super.setFilters(setLengthEditText(mask))
 
-    // Clearing error on fields
-    private fun clearError() = super.setError(null)
+    fun builder(values: ValuesUtils): Any {
+        TODO("Not yet implemented")
+    }
 }
