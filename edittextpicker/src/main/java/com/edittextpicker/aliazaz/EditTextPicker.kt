@@ -16,25 +16,33 @@ import kotlin.math.roundToLong
 class EditTextPicker : AppCompatEditText {
 
     var type: Int = 0
+        internal set
 
     /*
     * For Type range: Required minvalue, maxvalue and its corresponding default value
     * */
     var minvalue: Float = -1f
+        internal set
     var maxvalue: Float = -1f
+        internal set
     var rangedefaultvalue: Float = -1f
+        internal set
 
     /*
     * For Type equal: Required pattern and its corresponding default value
     * */
-    var defaultvalue: String? = null
+    var defaultvalue: String = ""
+        internal set
     var pattern: String? = null
+        internal set
 
     /*
     * Mask and Required: Both are optional
     * */
     var mask: String? = null
+        internal set
     var required: Boolean = true
+        internal set
 
     /*
     * Initializing TextWatcher
@@ -133,9 +141,8 @@ class EditTextPicker : AppCompatEditText {
                         if (maxvalue == -1f) throw RuntimeException("Max value attribute not provided in xml")
                     } else if (type == 2) {
                         pattern = getString(R.styleable.EditTextPicker_pattern)
-                        defaultvalue = getString(R.styleable.EditTextPicker_defaultValue)
+                        defaultvalue = getString(R.styleable.EditTextPicker_defaultValue) ?: ""
                         if (pattern == null) throw RuntimeException("Pattern value attribute not provided in xml")
-                        if (defaultvalue == null) defaultvalue = ""
                     }
                 }
             } catch (e: Exception) {

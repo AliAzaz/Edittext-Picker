@@ -30,7 +30,7 @@ android {
 
 }
 
-ext{
+ext {
     appcompat = '1.2.0'
     espresso = '3.3.0'
     test = '1.2.0'
