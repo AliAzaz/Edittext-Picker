@@ -1,5 +1,9 @@
 package com.edittextpicker.aliazaz.model
 
+/*
+* @author Ali Azaz Alam
+* */
+
 data class ValuesModel(
         var type: Int = 0,
 

@@ -34,11 +34,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun validateComponents(): Boolean {
         /*if (!txtBoxRange.isRangeTextValidate()) return false
-        if (!txtBoxRangeMaskPat.isRangeTextValidate()) return false
-        if (!txtBoxDefault.isTextEqualToPattern()) return false
-        if (!txtDate.isEmptyTextBox()) return false
-        if (!txtPhone.isEmptyTextBox()) return false*/
+        else if (!txtBoxRangeMaskPat.isRangeTextValidate()) return false
+        else if (!txtBoxDefault.isTextEqualToPattern()) return false
+        else if (!txtDate.isEmptyTextBox()) return false
+        else if (!txtPhone.isEmptyTextBox()) return false*/
         return txtPicker.isEmptyTextBox()
+        return true
     }
 
     private fun clearFields() {

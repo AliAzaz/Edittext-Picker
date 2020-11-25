@@ -48,5 +48,4 @@ dependencies {
     implementation "androidx.core:core-ktx:$coreKtx"
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
-    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

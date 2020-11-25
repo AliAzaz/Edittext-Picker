@@ -7,6 +7,12 @@ import com.edittextpicker.aliazaz.utils.editTextLoopToNextChar
 /*
 * Update by: Ali Azaz Alam
 * */
+
+/*
+* [EditTextPickerWatcher], implementing editTextPicker TextWatcher
+*
+* */
+
 internal class EditTextPickerWatcher(private val mask: String?) : TextWatcher {
 
     private var maskCheckFlag = true

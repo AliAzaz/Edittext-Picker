@@ -6,13 +6,11 @@ import androidx.appcompat.widget.AppCompatEditText
 import com.edittextpicker.aliazaz.model.ValuesModel
 import com.edittextpicker.aliazaz.repository.EditTextPickerWatcher
 import com.edittextpicker.aliazaz.utils.clearError
-import com.edittextpicker.aliazaz.utils.createViewId
 import com.edittextpicker.aliazaz.utils.setMaskEditTextLength
-import timber.log.Timber
 import kotlin.math.roundToLong
 
 /*
-* Update by: Ali Azaz Alam
+* @author Ali Azaz Alam
 * */
 class EditTextPicker : AppCompatEditText {
 
@@ -21,33 +19,24 @@ class EditTextPicker : AppCompatEditText {
     * */
     private var editTextPickerWatcher: EditTextPickerWatcher? = null
 
+    /*
+    * Declaring ValuesModel data class, used to store EditTextPicker properties values
+    * */
     private lateinit var valuesModel: ValuesModel
 
 
-    init {
-        /*
-        * Initializing timber log only for debug state
-        * */
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
-    }
-
-
     /*
-    * Initialize class with context and ValuesModel pass as an argument
+    * Initialize class with context and ValuesModel pass as an argument. Used while creating EditTextPicker programmatically
     * */
     constructor(context: Context, valuesModel: ValuesModel) : super(context) {
-        super.setId(createViewId())
         this.valuesModel = valuesModel
     }
 
 
     /*
-    * Initialize class with context, defaultStyle and ValuesModel pass as an argument
+    * Initialize class with context, defaultStyle and ValuesModel pass as an argument. Used while creating EditTextPicker programmatically
     * */
     constructor(context: Context, defaultStyle: Int, valuesModel: ValuesModel) : super(context, null, defaultStyle) {
-        super.setId(createViewId())
         this.valuesModel = valuesModel
     }
 
@@ -100,14 +89,7 @@ class EditTextPicker : AppCompatEditText {
                     * 2. Initializing TextWatcher -> if mask value is not null else remove initialized TextWatcher
                     * */
                     valuesModel.mask = getString(R.styleable.EditTextPicker_mask)
-                    if (valuesModel.mask.isNullOrEmpty()) removeTextChangedListener(editTextPickerWatcher)
-                    else {
-                        editTextPickerWatcher = EditTextPickerWatcher(valuesModel.mask)
-                        addTextChangedListener(editTextPickerWatcher)
-                        if (valuesModel.mask.toString().trim { it <= ' ' }.isNotEmpty()) {
-                            setMaskEditTextLength(this@EditTextPicker, valuesModel.mask!!)
-                        }
-                    }
+                    maskingListener()
 
 
                     /*
@@ -134,7 +116,6 @@ class EditTextPicker : AppCompatEditText {
                     }
                 }
             } catch (e: Exception) {
-                Timber.e("TextPicker: %s", e.message)
                 throw e
             } finally {
                 a.recycle()
@@ -151,15 +132,11 @@ class EditTextPicker : AppCompatEditText {
         clearError(this)
         if (!valuesModel.required) return true
         if (super.getText().toString().isEmpty()) {
-            Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
-                    ?: "%s", " Empty")
             super.setError(customError ?: "Required")
             super.setFocusableInTouchMode(true)
             super.requestFocus()
-            invalidate()
             return false
         }
-        invalidate()
         return true
     }
 
@@ -181,7 +158,6 @@ class EditTextPicker : AppCompatEditText {
                 if (super.getText().toString().toFloat() == super.getText().toString().toFloat().roundToLong().toFloat())
                     dValue = super.getText().toString().split("\\.").toTypedArray()[0].toFloat()
                 if (dValue == valuesModel.rangedefaultvalue) {
-                    invalidate()
                     return true
                 }
             }
@@ -192,12 +168,8 @@ class EditTextPicker : AppCompatEditText {
             super.setError(customError ?: "The range is from $minVal to $maxVal ")
             super.setFocusableInTouchMode(true)
             super.requestFocus()
-            Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
-                    ?: "%s", " The defined range is from $minVal to $maxVal ")
-            invalidate()
             return false
         }
-        invalidate()
         return true
     }
 
@@ -213,9 +185,8 @@ class EditTextPicker : AppCompatEditText {
         if (!isEmptyTextBox()) return false
         if (!checkingTextPattern(customError))
             return when {
-                valuesModel.type == 2 && super.getText().toString() == valuesModel.defaultvalue.toString() -> {
+                valuesModel.type == 2 && super.getText().toString() == valuesModel.defaultvalue -> {
                     clearError(this)
-                    invalidate()
                     true
                 }
                 else -> false
@@ -225,7 +196,7 @@ class EditTextPicker : AppCompatEditText {
 
 
     /*
-    * Private function that's using to check EditText matches to pattern or not and return this flag
+    * Check EditText matches to pattern or not and return this flag
     * */
     private fun checkingTextPattern(customError: String?): Boolean {
         valuesModel.pattern?.let {
@@ -234,18 +205,29 @@ class EditTextPicker : AppCompatEditText {
                     super.setError(customError ?: "Not match with pattern")
                     super.setFocusableInTouchMode(true)
                     super.requestFocus()
-                    Timber.i(this.context.resources.getResourceEntryName(super.getId())?.let { "$it:%s" }
-                            ?: "%s", "  Not matching with defined regex pattern")
-                    invalidate()
                     false
                 }
                 else -> {
                     clearError(this)
-                    invalidate()
                     true
                 }
             }
         } ?: return true
+    }
+
+
+    /*
+    * [maskingListener] adding and removing TextChangedListener
+    * */
+    private fun maskingListener() {
+        if (valuesModel.mask.isNullOrEmpty()) removeTextChangedListener(editTextPickerWatcher)
+        else {
+            editTextPickerWatcher = EditTextPickerWatcher(valuesModel.mask)
+            addTextChangedListener(editTextPickerWatcher)
+            if (valuesModel.mask.toString().trim { it <= ' ' }.isNotEmpty()) {
+                setMaskEditTextLength(this@EditTextPicker, valuesModel.mask!!)
+            }
+        }
     }
 
 }
