@@ -3,8 +3,10 @@ package com.edittextpicker.aliazaz
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
+import com.edittextpicker.aliazaz.model.EditTextModel
 import com.edittextpicker.aliazaz.model.ValuesModel
 import com.edittextpicker.aliazaz.repository.EditTextPickerWatcher
+import com.edittextpicker.aliazaz.utils.EditTextViews
 import com.edittextpicker.aliazaz.utils.clearError
 import com.edittextpicker.aliazaz.utils.setMaskEditTextLength
 import kotlin.math.roundToLong
@@ -12,7 +14,7 @@ import kotlin.math.roundToLong
 /*
 * @author Ali Azaz Alam
 * */
-class EditTextPicker : AppCompatEditText {
+class EditTextPicker : AppCompatEditText, EditTextViews {
 
     /*
     * Initializing TextWatcher
@@ -26,23 +28,25 @@ class EditTextPicker : AppCompatEditText {
 
 
     /*
-    * Initialize class with context and ValuesModel pass as an argument. Used while creating EditTextPicker programmatically
+    * Initialize class with {@param context}, and {@param EditTextModel} pass as an argument. Used while creating EditTextPicker programmatically
     * */
-    constructor(context: Context, valuesModel: ValuesModel) : super(context) {
-        this.valuesModel = valuesModel
+    constructor(context: Context, valuesModel: EditTextModel) : super(context) {
+        this.valuesModel = valuesModel.valuesModel!!
+        maskingListener()
     }
 
 
     /*
-    * Initialize class with context, defaultStyle and ValuesModel pass as an argument. Used while creating EditTextPicker programmatically
+    * Initialize class with {@param context}, {@param attributeSet} and {@param EditTextModel} pass as an argument. Used while creating EditTextPicker programmatically
     * */
-    constructor(context: Context, defaultStyle: Int, valuesModel: ValuesModel) : super(context, null, defaultStyle) {
-        this.valuesModel = valuesModel
+    constructor(context: Context, defaultStyle: Int, valuesModel: EditTextModel) : super(context, null, defaultStyle) {
+        this.valuesModel = valuesModel.valuesModel!!
+        maskingListener()
     }
 
 
     /*
-    * Initialize class with context and attributeSet pass as an argument
+    * Initialize class with {@param context}, and {@param attributeSet} pass as an argument
     * */
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         initialize(context, attrs)
@@ -50,7 +54,7 @@ class EditTextPicker : AppCompatEditText {
 
 
     /*
-    * Initialize class with context, attributeSet and defaultStyle pass as an argument
+    * Initialize class with {@param context}, {@param attributeSet} and {@param defaultStyle} pass as an argument
     * */
     constructor(context: Context, attrs: AttributeSet?, defaultStyle: Int) : super(context, attrs, defaultStyle) {
         initialize(context, attrs)
@@ -126,6 +130,7 @@ class EditTextPicker : AppCompatEditText {
 
     /*
     * Validating EditText: Identifying it's empty or not
+    * {@param customError} set custom error to EditText
     * */
     @JvmOverloads
     fun isEmptyTextBox(customError: String? = null): Boolean {
@@ -144,6 +149,7 @@ class EditTextPicker : AppCompatEditText {
     /*
     * Access this functionality by setting type = range
     * This validation identifying whether EditText fulfilling specified min and max range or defualtValue or not.
+    * {@param customError} set custom error to EditText
     * */
     @JvmOverloads
     fun isRangeTextValidate(customError: String? = null): Boolean {
@@ -177,6 +183,7 @@ class EditTextPicker : AppCompatEditText {
     /*
     * Access this functionality by setting type = equal
     * This validation identifying whether EditText passing defined regex pattern or equal to default value.
+    * {@param customError} set custom error to EditText
     * */
     @JvmOverloads
     fun isTextEqualToPattern(customError: String? = null): Boolean {
@@ -197,6 +204,7 @@ class EditTextPicker : AppCompatEditText {
 
     /*
     * Check EditText matches to pattern or not and return this flag
+    * {@param customError} set custom error to EditText
     * */
     private fun checkingTextPattern(customError: String?): Boolean {
         valuesModel.pattern?.let {
@@ -228,6 +236,32 @@ class EditTextPicker : AppCompatEditText {
                 setMaskEditTextLength(this@EditTextPicker, valuesModel.mask!!)
             }
         }
+    }
+
+
+    /*
+    * {@param mask} Set mask text to EditText
+    * call [maskingListener] for performing masking
+    * */
+    override fun setMask(mask: String) {
+        valuesModel.mask = mask
+        maskingListener()
+    }
+
+
+    /*
+    * {@param required} Set required text to EditText
+    * */
+    override fun setRequired(required: Boolean) {
+        valuesModel.required = required
+    }
+
+
+    /*
+    * {@param pattern} Set pattern to EditText
+    * */
+    override fun setPattern(pattern: String) {
+        valuesModel.pattern = pattern
     }
 
 }

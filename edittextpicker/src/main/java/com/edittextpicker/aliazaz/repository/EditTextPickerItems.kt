@@ -1,11 +1,11 @@
 package com.edittextpicker.aliazaz.repository
 
+import com.edittextpicker.aliazaz.model.EditTextModel
 import com.edittextpicker.aliazaz.model.ValuesModel
 
 /*
 * @author Ali Azaz Alam
 * */
-
 class EditTextPickerItems {
 
     private var valuesModel: ValuesModel = ValuesModel()
@@ -36,16 +36,15 @@ class EditTextPickerItems {
 
     @JvmOverloads
     fun setEqual(pattern: String, defaultValue: String = ""): EditTextPickerItems {
+        valuesModel.type = 2
         valuesModel.pattern = pattern
         valuesModel.defaultvalue = defaultValue
         return this
     }
 
-    fun create(): ValuesModel {
-        valuesModel.mask?.let {
-            EditTextPickerWatcher(valuesModel.mask)
-        }
-        return valuesModel
+    fun create(): EditTextModel {
+        EditTextModel.valuesModel = valuesModel
+        return EditTextModel
     }
 
 

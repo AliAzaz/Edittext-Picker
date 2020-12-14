@@ -8,7 +8,6 @@ import com.edittextpicker.aliazaz.EditTextPicker
 * @author Ali Azaz Alam
 * */
 
-
 /*
 * Masking procedure algorithm to create editTextPicker masked
 * */

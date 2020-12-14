@@ -1,6 +1,7 @@
 package com.edittextpicker.aliazaz.edittextpicker
 
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.edittextpicker.aliazaz.EditTextPicker
@@ -25,9 +26,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        val edut = EditTextPicker(this).builder(Values().minvalue)
-
-        txtPicker = EditTextPicker(this, EditTextPickerItems().setRequired(true).create())
+        // Create Edittext programatically
+        txtPicker = EditTextPicker(this, EditTextPickerItems().setRequired(true).setRangeValues(2.0f, 33.5f).setMask("##.##").setPattern("^(\\d{2,2}\\.\\d{2,2})$").create())
+        txtPicker.hint = "##.##"
+        txtPicker.inputType = InputType.TYPE_CLASS_NUMBER
         llLayout.addView(txtPicker)
 
     }
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         else if (!txtBoxDefault.isTextEqualToPattern()) return false
         else if (!txtDate.isEmptyTextBox()) return false
         else if (!txtPhone.isEmptyTextBox()) return false*/
-        return txtPicker.isEmptyTextBox()
+        return txtPicker.isRangeTextValidate()
         return true
     }
 
