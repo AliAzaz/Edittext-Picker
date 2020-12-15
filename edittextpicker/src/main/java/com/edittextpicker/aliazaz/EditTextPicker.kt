@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.edittextpicker.aliazaz.model.EditTextModel
-import com.edittextpicker.aliazaz.model.ValuesModel
+import com.edittextpicker.aliazaz.model.EditTextPickerModel
 import com.edittextpicker.aliazaz.repository.EditTextPickerWatcher
 import com.edittextpicker.aliazaz.utils.EditTextViews
 import com.edittextpicker.aliazaz.utils.clearError
@@ -22,16 +22,16 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     private var editTextPickerWatcher: EditTextPickerWatcher? = null
 
     /*
-    * Declaring ValuesModel data class, used to store EditTextPicker properties values
+    * Declaring editTextPickerModel data class, used to store EditTextPicker properties values
     * */
-    private lateinit var valuesModel: ValuesModel
+    private lateinit var editTextPickerModel: EditTextPickerModel
 
 
     /*
     * Initialize class with {@param context}, and {@param EditTextModel} pass as an argument. Used while creating EditTextPicker programmatically
     * */
-    constructor(context: Context, valuesModel: EditTextModel) : super(context) {
-        this.valuesModel = valuesModel.valuesModel!!
+    constructor(context: Context, editTextPickerModel: EditTextModel) : super(context) {
+        this.editTextPickerModel = editTextPickerModel.editTextPickerModel!!
         maskingListener()
     }
 
@@ -39,8 +39,8 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     /*
     * Initialize class with {@param context}, {@param attributeSet} and {@param EditTextModel} pass as an argument. Used while creating EditTextPicker programmatically
     * */
-    constructor(context: Context, defaultStyle: Int, valuesModel: EditTextModel) : super(context, null, defaultStyle) {
-        this.valuesModel = valuesModel.valuesModel!!
+    constructor(context: Context, defaultStyle: Int, editTextPickerModel: EditTextModel) : super(context, null, defaultStyle) {
+        this.editTextPickerModel = editTextPickerModel.editTextPickerModel!!
         maskingListener()
     }
 
@@ -65,7 +65,7 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     * Get attribute setter properties from xml and set it to the specific variables
     * */
     private fun initialize(context: Context, attrs: AttributeSet?) {
-        valuesModel = ValuesModel()
+        editTextPickerModel = EditTextPickerModel()
         attrs?.let { item ->
             val a = context.obtainStyledAttributes(
                     item,
@@ -78,21 +78,21 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
                     * 2. Default value is 'true'
                     * 3. Optional
                     * */
-                    valuesModel.required = getBoolean(R.styleable.EditTextPicker_required, true)
+                    editTextPickerModel.required = getBoolean(R.styleable.EditTextPicker_required, true)
 
 
                     /*
                     * 1. Setting pattern attribute value
                     * 2. Optional
                     * */
-                    valuesModel.pattern = getString(R.styleable.EditTextPicker_pattern)
+                    editTextPickerModel.pattern = getString(R.styleable.EditTextPicker_pattern)
 
 
                     /*
                     * 1. Setting mask attribute value
                     * 2. Initializing TextWatcher -> if mask value is not null else remove initialized TextWatcher
                     * */
-                    valuesModel.mask = getString(R.styleable.EditTextPicker_mask)
+                    editTextPickerModel.mask = getString(R.styleable.EditTextPicker_mask)
                     maskingListener()
 
 
@@ -105,18 +105,18 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
                     *   i) Required pattern value
                     *   ii) Define default value is Optional
                     * */
-                    valuesModel.type = getInteger(R.styleable.EditTextPicker_type, 0)
-                    if (valuesModel.type == 1) {
-                        valuesModel.minvalue = getFloat(R.styleable.EditTextPicker_minValue, -1f)
-                        valuesModel.maxvalue = getFloat(R.styleable.EditTextPicker_maxValue, -1f)
-                        valuesModel.rangedefaultvalue = getFloat(R.styleable.EditTextPicker_defaultValue, -1f)
-                        if (valuesModel.minvalue == -1f) throw RuntimeException("Min value attribute not provided in xml")
-                        if (valuesModel.maxvalue == -1f) throw RuntimeException("Max value attribute not provided in xml")
-                    } else if (valuesModel.type == 2) {
-                        valuesModel.pattern = getString(R.styleable.EditTextPicker_pattern)
-                        valuesModel.defaultvalue = getString(R.styleable.EditTextPicker_defaultValue)
+                    editTextPickerModel.type = getInteger(R.styleable.EditTextPicker_type, 0)
+                    if (editTextPickerModel.type == 1) {
+                        editTextPickerModel.minvalue = getFloat(R.styleable.EditTextPicker_minValue, -1f)
+                        editTextPickerModel.maxvalue = getFloat(R.styleable.EditTextPicker_maxValue, -1f)
+                        editTextPickerModel.rangedefaultvalue = getFloat(R.styleable.EditTextPicker_defaultValue, -1f)
+                        if (editTextPickerModel.minvalue == -1f) throw RuntimeException("Min value attribute not provided in xml")
+                        if (editTextPickerModel.maxvalue == -1f) throw RuntimeException("Max value attribute not provided in xml")
+                    } else if (editTextPickerModel.type == 2) {
+                        editTextPickerModel.pattern = getString(R.styleable.EditTextPicker_pattern)
+                        editTextPickerModel.defaultvalue = getString(R.styleable.EditTextPicker_defaultValue)
                                 ?: ""
-                        if (valuesModel.pattern == null) throw RuntimeException("Pattern value attribute not provided in xml")
+                        if (editTextPickerModel.pattern == null) throw RuntimeException("Pattern value attribute not provided in xml")
                     }
                 }
             } catch (e: Exception) {
@@ -135,7 +135,7 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     @JvmOverloads
     fun isEmptyTextBox(customError: String? = null): Boolean {
         clearError(this)
-        if (!valuesModel.required) return true
+        if (!editTextPickerModel.required) return true
         if (super.getText().toString().isEmpty()) {
             super.setError(customError ?: "Required")
             super.setFocusableInTouchMode(true)
@@ -154,23 +154,23 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     @JvmOverloads
     fun isRangeTextValidate(customError: String? = null): Boolean {
         clearError(this)
-        if (valuesModel.type == 2) return true
-        if (!valuesModel.required) return true
+        if (editTextPickerModel.type == 2) return true
+        if (!editTextPickerModel.required) return true
         if (!isEmptyTextBox()) return false
         if (!checkingTextPattern(null)) return false
-        if (super.getText().toString().toFloat() < valuesModel.minvalue || super.getText().toString().toFloat() > valuesModel.maxvalue) {
-            if (valuesModel.rangedefaultvalue != -1f) {
+        if (super.getText().toString().toFloat() < editTextPickerModel.minvalue || super.getText().toString().toFloat() > editTextPickerModel.maxvalue) {
+            if (editTextPickerModel.rangedefaultvalue != -1f) {
                 var dValue = super.getText().toString().toFloat()
                 if (super.getText().toString().toFloat() == super.getText().toString().toFloat().roundToLong().toFloat())
                     dValue = super.getText().toString().split("\\.").toTypedArray()[0].toFloat()
-                if (dValue == valuesModel.rangedefaultvalue) {
+                if (dValue == editTextPickerModel.rangedefaultvalue) {
                     return true
                 }
             }
-            var minVal = valuesModel.minvalue.toString()
-            var maxVal = valuesModel.maxvalue.toString()
-            if (valuesModel.minvalue == valuesModel.minvalue.roundToLong().toFloat()) minVal = minVal.split(".").toTypedArray()[0]
-            if (valuesModel.maxvalue == valuesModel.maxvalue.roundToLong().toFloat()) maxVal = maxVal.split(".").toTypedArray()[0]
+            var minVal = editTextPickerModel.minvalue.toString()
+            var maxVal = editTextPickerModel.maxvalue.toString()
+            if (editTextPickerModel.minvalue == editTextPickerModel.minvalue.roundToLong().toFloat()) minVal = minVal.split(".").toTypedArray()[0]
+            if (editTextPickerModel.maxvalue == editTextPickerModel.maxvalue.roundToLong().toFloat()) maxVal = maxVal.split(".").toTypedArray()[0]
             super.setError(customError ?: "The range is from $minVal to $maxVal ")
             super.setFocusableInTouchMode(true)
             super.requestFocus()
@@ -188,11 +188,11 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     @JvmOverloads
     fun isTextEqualToPattern(customError: String? = null): Boolean {
         clearError(this)
-        if (!valuesModel.required) return true
+        if (!editTextPickerModel.required) return true
         if (!isEmptyTextBox()) return false
         if (!checkingTextPattern(customError))
             return when {
-                valuesModel.type == 2 && super.getText().toString() == valuesModel.defaultvalue -> {
+                editTextPickerModel.type == 2 && super.getText().toString() == editTextPickerModel.defaultvalue -> {
                     clearError(this)
                     true
                 }
@@ -207,9 +207,9 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     * {@param customError} set custom error to EditText
     * */
     private fun checkingTextPattern(customError: String?): Boolean {
-        valuesModel.pattern?.let {
+        editTextPickerModel.pattern?.let {
             return when {
-                !super.getText().toString().matches(Regex(valuesModel.pattern!!)) -> {
+                !super.getText().toString().matches(Regex(editTextPickerModel.pattern!!)) -> {
                     super.setError(customError ?: "Not match with pattern")
                     super.setFocusableInTouchMode(true)
                     super.requestFocus()
@@ -228,12 +228,12 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     * [maskingListener] adding and removing TextChangedListener
     * */
     private fun maskingListener() {
-        if (valuesModel.mask.isNullOrEmpty()) removeTextChangedListener(editTextPickerWatcher)
+        if (editTextPickerModel.mask.isNullOrEmpty()) removeTextChangedListener(editTextPickerWatcher)
         else {
-            editTextPickerWatcher = EditTextPickerWatcher(valuesModel.mask)
+            editTextPickerWatcher = EditTextPickerWatcher(editTextPickerModel.mask)
             addTextChangedListener(editTextPickerWatcher)
-            if (valuesModel.mask.toString().trim { it <= ' ' }.isNotEmpty()) {
-                setMaskEditTextLength(this@EditTextPicker, valuesModel.mask!!)
+            if (editTextPickerModel.mask.toString().trim { it <= ' ' }.isNotEmpty()) {
+                setMaskEditTextLength(this@EditTextPicker, editTextPickerModel.mask!!)
             }
         }
     }
@@ -243,25 +243,65 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     * {@param mask} Set mask text to EditText
     * call [maskingListener] for performing masking
     * */
-    override fun setMask(mask: String) {
-        valuesModel.mask = mask
+    override fun setMask(mask: String): EditTextPicker {
+        editTextPickerModel.mask = mask
         maskingListener()
+        return this
     }
 
 
     /*
     * {@param required} Set required text to EditText
     * */
-    override fun setRequired(required: Boolean) {
-        valuesModel.required = required
+    override fun setRequired(required: Boolean): EditTextPicker {
+        editTextPickerModel.required = required
+        return this
     }
 
 
     /*
     * {@param pattern} Set pattern to EditText
     * */
-    override fun setPattern(pattern: String) {
-        valuesModel.pattern = pattern
+    override fun setPattern(pattern: String): EditTextPicker {
+        editTextPickerModel.pattern = pattern
+        return this
     }
+
+
+    /*
+    * {@param minValue} Set minValue to EditText
+    * */
+    override fun setMinValue(minValue: Float): EditTextPicker {
+        editTextPickerModel.minvalue = minValue
+        return this
+    }
+
+
+    /*
+    * {@param maxValue} Set maxValue to EditText
+    * */
+    override fun setMaxValue(maxValue: Float): EditTextPicker {
+        editTextPickerModel.maxvalue = maxValue
+        return this
+    }
+
+
+    /*
+    * {@param defaultValue} Set rangedefaultvalue to EditText
+    * */
+    override fun setRangeDefaultValue(defaultValue: Float): EditTextPicker {
+        editTextPickerModel.rangedefaultvalue = defaultValue
+        return this
+    }
+
+
+    /*
+    * {@param defaultValue} Set equalDefaultValue to EditText
+    * */
+    override fun setEqualDefaultValue(defaultValue: String): EditTextPicker {
+        editTextPickerModel.defaultvalue = defaultValue
+        return this
+    }
+
 
 }

@@ -3,7 +3,7 @@ package com.edittextpicker.aliazaz.model
 /*
 * @author Ali Azaz Alam
 * */
-internal data class ValuesModel(
+internal data class EditTextPickerModel(
         var type: Int = 0,
 
         /*
