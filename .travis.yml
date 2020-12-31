@@ -3,13 +3,13 @@ language: android
 android:
   components:
     - android-30
-    - build-tools-30.0.2
+    - build-tools-30.0.3
     - tools
     - platform-tools
     - extra-android-m2repository
 
 before_install:
-  - yes | sdkmanager "build-tools;30.0.2"
+  - yes | sdkmanager "build-tools;30.0.3"
   - chmod +x gradlew
 
 script:

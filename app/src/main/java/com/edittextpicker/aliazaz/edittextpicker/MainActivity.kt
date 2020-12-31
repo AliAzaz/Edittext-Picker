@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         txtDate.setMask("##-##-####").setRequired(false)
 
         // Create Edittextpicker programatically
-        txtPicker = EditTextPicker(this, EditTextPickerItems().setRequired(true).setRangeValues(2.0f, 33.5f).setMask("##.##").setPattern("^(\\d{2,2}\\.\\d{2,2})$").create())
+        txtPicker = EditTextPicker(this, EditTextPickerItems().setRequired(true).setRangeValues(0.5f, 40.0f).setMask("##.##").setPattern("^(\\d{2,2}\\.\\d{2,2})$").create())
         txtPicker.hint = "##.##"
         txtPicker.inputType = InputType.TYPE_CLASS_NUMBER
         llLayout.addView(txtPicker)
@@ -44,19 +44,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun validateComponents(): Boolean {
         if (!txtBoxRange.isRangeTextValidate()) return false
-        else if (!txtBoxRangeMaskPat.isRangeTextValidate()) return false
+        else if (!txtPicker.isRangeTextValidate()) return false
         else if (!txtBoxDefault.isTextEqualToPattern()) return false
         else if (!txtDate.isEmptyTextBox()) return false
-        else if (!txtPhone.isEmptyTextBox()) return false
-        return txtPicker.isRangeTextValidate()
+        return txtPhone.isEmptyTextBox()
     }
 
     private fun clearFields() {
         txtBoxRange.text = null
-        txtBoxRangeMaskPat.text = null
+        txtPicker.text = null
         txtBoxDefault.text = null
         txtDate.text = null
         txtPhone.text = null
-        txtPicker.text = null
     }
 }

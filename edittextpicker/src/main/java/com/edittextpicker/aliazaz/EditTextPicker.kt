@@ -209,7 +209,7 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     private fun checkingTextPattern(customError: String?): Boolean {
         editTextPickerModel.pattern?.let {
             return when {
-                !super.getText().toString().matches(Regex(editTextPickerModel.pattern!!)) -> {
+                !super.getText().toString().matches(Regex(it)) -> {
                     super.setError(customError ?: "Not match with pattern")
                     super.setFocusableInTouchMode(true)
                     super.requestFocus()
@@ -302,6 +302,5 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         editTextPickerModel.defaultvalue = defaultValue
         return this
     }
-
 
 }
