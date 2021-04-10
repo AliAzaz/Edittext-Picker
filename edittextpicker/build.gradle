@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 30
         versionCode 1
-        versionName "2.0.1"
+        versionName "2.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -30,7 +30,7 @@ android {
 
 }
 
-ext{
+ext {
     appcompat = '1.2.0'
     espresso = '3.3.0'
     test = '1.2.0'
@@ -48,5 +48,4 @@ dependencies {
     implementation "androidx.core:core-ktx:$coreKtx"
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
-    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

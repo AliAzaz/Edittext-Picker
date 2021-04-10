@@ -1,11 +1,19 @@
 package com.edittextpicker.aliazaz.edittextpicker
 
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.edittextpicker.aliazaz.EditTextPicker
+import com.edittextpicker.aliazaz.repository.EditTextPickerItems
 import kotlinx.android.synthetic.main.activity_main.*
 
+/*
+* @author Ali Azaz Alam
+* */
 class MainActivity : AppCompatActivity() {
+
+    lateinit var txtPicker: EditTextPicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,18 +28,31 @@ class MainActivity : AppCompatActivity() {
                 clearFields()
             }
         }
+
+        /*
+        * Setting date mask to txtDate
+        * */
+        txtDate.setMask("##-##-####").setRequired(false)
+
+        // Create Edittextpicker programatically
+        txtPicker = EditTextPicker(this, EditTextPickerItems().setRequired(true).setRangeValues(0.5f, 40.0f).setMask("##.##").setPattern("^(\\d{2,2}\\.\\d{2,2})$").create())
+        txtPicker.hint = "##.##"
+        txtPicker.inputType = InputType.TYPE_CLASS_NUMBER
+        llLayout.addView(txtPicker)
+
     }
 
     private fun validateComponents(): Boolean {
-        if (!txtBoxRange.isRangeTextValidate) return false
-        if (!txtBoxRangeMaskPat.isRangeTextValidate) return false
-        if (!txtBoxDefault.isTextEqualToPattern) return false
-        return if (!txtDate.isEmptyTextBox) false else txtPhone.isEmptyTextBox
+        if (!txtBoxRange.isRangeTextValidate()) return false
+        else if (!txtPicker.isRangeTextValidate()) return false
+        else if (!txtBoxDefault.isTextEqualToPattern()) return false
+        else if (!txtDate.isEmptyTextBox()) return false
+        return txtPhone.isEmptyTextBox()
     }
 
     private fun clearFields() {
         txtBoxRange.text = null
-        txtBoxRangeMaskPat.text = null
+        txtPicker.text = null
         txtBoxDefault.text = null
         txtDate.text = null
         txtPhone.text = null

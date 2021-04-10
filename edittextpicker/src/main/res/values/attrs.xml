@@ -13,10 +13,10 @@
 
         <attr name="mask" format="string" />
 
-        <!--Numeric-->
         <attr name="defaultValue" format="string" />
         <attr name="minValue" format="float" />
         <attr name="maxValue" format="float" />
+
         <attr name="type" format="enum">
             <enum name="range" value="1" />
             <enum name="equal" value="2" />
