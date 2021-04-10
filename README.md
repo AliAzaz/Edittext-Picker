@@ -1,6 +1,6 @@
 # EditTextPicker/Masked-Edittext Library
 
-[![Build Status](https://travis-ci.org/AliAzaz/Edittext-Library.svg?branch=master)](https://travis-ci.org/AliAzaz/Edittext-Library) [![](https://jitpack.io/v/AliAzaz/Edittext-Library.svg)](https://jitpack.io/#AliAzaz/Edittext-Library) [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
+[![Build Status](https://travis-ci.com/AliAzaz/Edittext-Picker.svg?branch=master)](https://travis-ci.org/AliAzaz/Edittext-Library) [![](https://jitpack.io/v/AliAzaz/Edittext-Library.svg)](https://jitpack.io/#AliAzaz/Edittext-Library) [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
  [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-EditTextPicker-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7671)
 
 Edittext library by which you can easily achieve lot of functionalities though directly implemented some lines of code in XML and on Java side.
@@ -93,7 +93,7 @@ Note: By default required is true. But if you don't want to validate specific ed
         app:type="equal" />
 ```
 
-### Java
+### Java/Kotlin
 Implement this code in submit button click
 
 --- For Required component
@@ -114,16 +114,32 @@ Implement this code in submit button click
                 return;
 ```
 
+## Builder Pattern
+This library also works if you implement chain request, like in this way:
+
+> Example code
+
+```sh
+EditTextPicker(this, 
+
+	  EditTextPickerItems()
+
+	      .setRequired(true)
+
+	      .setRangeValues(0.5f,40.0f)
+
+	      .setMask("##.##")
+
+	      .setPattern("^(\\d{2,2}\\.\\d{2,2})$")
+
+	      .create()
+)
+```
+
 
 CONNECT👍
 
-Medium: https://medium.com/@ali.azaz.alam
-
-Twitter: https://twitter.com/AliAzazAlam1
-
-Github: https://github.com/aliazaz
-
-LinkedIn: https://www.linkedin.com/in/aliazazalam/
+Connect with me on socials [Medium](https://medium.com/@ali.azaz.alam), [Twitter](https://twitter.com/AliAzazAlam1), [LinkedIN](https://www.linkedin.com/in/aliazazalam), [StackOverFLow](https://stackoverflow.com/users/9764941/ali-azaz-alam) and [AndroidArsenal](https://android-arsenal.com/user/AliAzaz)
 
 
 ## LICENSE
