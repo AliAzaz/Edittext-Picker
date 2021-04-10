@@ -36,7 +36,6 @@ internal fun setLengthEditText(maskText: String): Array<InputFilter> = arrayOf(L
 * */
 internal fun clearError(editTextPicker: EditTextPicker) {
     editTextPicker.error = null
-//    editTextPicker.invalidate()
 }
 
 
