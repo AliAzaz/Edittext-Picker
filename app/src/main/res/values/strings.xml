@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EditTextPicker</string>
+    <string name="form_submitted">Successfully submitted</string>
 </resources>
