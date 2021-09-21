@@ -19,9 +19,7 @@ Please see the description of this library in my article ***[Edittext Picker Lib
 <img alt="pic-1" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic1.png" width="220" height="460"/> &nbsp; <img alt="pic-2" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic2.png" width="220" height="460"/> &nbsp; <img alt="pic-3" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic3.png" width="220" height="460"/>
 
 
-## How to use it??
-
-### Implementation 
+## Implementation 
 In project.gradle add this code it in root build.gradle at the end of repositories:
 ```sh
 allprojects {
@@ -30,9 +28,6 @@ allprojects {
 		maven { url 'https://jitpack.io' }
 	}
 }
-```
-```sh
-Note: In future the new amendments will only reflect on AndroidX support
 ```
 
 Now, add the dependency in app.gradle:
@@ -135,11 +130,16 @@ User can easily set the attributes values in code file.
 ```sh
 txtDate.setMask("##-##-####").setRequired(false)
 ```
+<br>
 
 
-CONNECT👍
+## CONNECT👍
 
-Connect with me on socials [Medium](https://medium.com/@ali.azaz.alam), [Twitter](https://twitter.com/AliAzazAlam1), [LinkedIN](https://www.linkedin.com/in/aliazazalam), [StackOverFLow](https://stackoverflow.com/users/9764941/ali-azaz-alam) and [AndroidArsenal](https://android-arsenal.com/user/AliAzaz)
+[![LinkedIn Badge](https://img.shields.io/badge/-aliazazalam-blue?style=flat&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/aliazazalam/)](https://www.linkedin.com/in/aliazazalam)
+[![Twitter Badge](https://img.shields.io/badge/-aliazaz-gray?style=flat&logo=twitter&logoColor=blue&link=https://twitter.com/AliAzazAlam1)](https://twitter.com/AliAzazAlam1)
+[![Medium Badge](https://img.shields.io/badge/-aliazazalam-black?style=flat&logo=Medium&logoColor=white&link=https://medium.com/@ali.azaz.alam)](https://medium.com/@ali.azaz.alam)
+[![Stackoverflow Badge](https://img.shields.io/badge/-aliazaz-gray?style=flat&logo=stackoverflow&logoColor=orange&link=https://stackoverflow.com/story/ali-azaz-alam)](https://stackoverflow.com/story/ali-azaz-alam)
+
 
 
 ## LICENSE
