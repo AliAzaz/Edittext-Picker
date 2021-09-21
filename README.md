@@ -12,11 +12,12 @@ Following are the functions that EditTextPicker provides:
   - Range checking
 
 ## Description:
-Please see the description of this library on my article ***[Edittext Picker Library](https://medium.com/@ali.azaz.alam/edittext-picker-library-4c71ae7d7863)***
+Please see the description of this library in my article ***[Edittext Picker Library](https://medium.com/@ali.azaz.alam/edittext-picker-library-4c71ae7d7863)***
 
-## Some Output Screenshots
+## Result
 
-<img alt="Pic-1" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic1.png"/> <img alt="Pic-2" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic2.png"/>
+<img alt="pic-1" src="https://github.com/AliAzaz/Edittext-Library/blob/master/images/pic1.png" width="220" height="460"/> &nbsp; <img alt="pic-2" src="https://github.com/AliAzaz/Edittext-Library/blob/master/images/pic2.png" width="220" height="460"/> &nbsp; <img alt="pic-3" src="https://github.com/AliAzaz/Edittext-Library/blob/master/images/pic3.png" width="220" height="460"/>
+
 
 ## How to use it??
 
@@ -49,48 +50,48 @@ Note: By default required is true. But if you don't want to validate specific ed
 
 -- Required Edittext
 ```sh
-    <com.edittextpicker.aliazaz.EditTextPicker
-        android:id="@+id/txtBoxReq"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:required="true" />
+<com.edittextpicker.aliazaz.EditTextPicker
+     android:id="@+id/txtBoxReq"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     app:required="true" />
 ```
 
 -- Range (5-10) with default value of 999
 ```sh
-    <com.edittextpicker.aliazaz.EditTextPicker
-        android:id="@+id/txtBoxRange"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        app:defaultValue="999"
-        app:maxValue="10"
-        app:minValue="5"
-        app:required="true"
-        app:type="range" />
+<com.edittextpicker.aliazaz.EditTextPicker
+     android:id="@+id/txtBoxRange"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:inputType="number"
+     app:defaultValue="999"
+     app:maxValue="10"
+     app:minValue="5"
+     app:required="true"
+     app:type="range" />
 ```
 
 -- Masking
 ```sh
-    <com.edittextpicker.aliazaz.EditTextPicker
-        android:id="@+id/txtMask"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        app:mask="##-##-####"
-        app:required="false" />
+<com.edittextpicker.aliazaz.EditTextPicker
+     android:id="@+id/txtMask"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:inputType="number"
+     app:mask="##-##-####"
+     app:required="false" />
 ```
 
 -- Pattern with default value checking [Following pattern is: (2-4)Characters with (3-5)Digits ]
 ```sh
-    <com.edittextpicker.aliazaz.EditTextPicker
-        android:id="@+id/txtBoxDefault"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:defaultValue="null"
-        app:pattern="[^0-9]{2,4}[0-9]{3,5}"
-        app:required="true"
-        app:type="equal" />
+<com.edittextpicker.aliazaz.EditTextPicker
+     android:id="@+id/txtBoxDefault"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     app:defaultValue="null"
+     app:pattern="[^0-9]{2,4}[0-9]{3,5}"
+     app:required="true"
+     app:type="equal" />
 ```
 
 ### Java/Kotlin
@@ -98,39 +99,41 @@ Implement this code in submit button click
 
 --- For Required component
 ```sh
-    if (!txtBoxReq.isEmptyTextBox())
-                return;
+if (!txtBoxReq.isEmptyTextBox()) return;
 ```
 
 -- For validating range component
 ```sh
-    if (!txtBoxRange.isRangeTextValidate())
-                return;
+if (!txtBoxRange.isRangeTextValidate()) return;
 ```
 
 -- For validating pattern component
 ```sh
-    if (!txtBoxDefault.isTextEqualToPattern())
-                return;
+if (!txtBoxDefault.isTextEqualToPattern()) return;
 ```
 
-
-## Now support Builder Pattern
-This library also works if you implement chain request, like in this way:
-
-> Example code
+## Support Builder Pattern
+This library also support chain request
 
 ```sh
-	 txtPicker = EditTextPicker(this,
+txtPicker = EditTextPicker(this,
 	     EditTextPickerItems().apply {
-             setRequired(true)
-             setRangeValues(0.5f, 40.0f)
-             setMask("##.##")
-             setPattern("^(\\d{2,2}\\.\\d{2,2})$")
-          }.create()).apply {
-              hint = "##.##"
-              inputType = InputType.TYPE_CLASS_NUMBER
+                setRequired(true)
+                setRangeValues(0.5f, 40.0f)
+                setMask("##.##")
+                setPattern("^(\\d{2,2}\\.\\d{2,2})$")
+          }.create())
+          .apply {
+                hint = "##.##"
+                inputType = InputType.TYPE_CLASS_NUMBER
           }
+```
+
+## Set values at Run time
+
+User can easily set the attributes values in code file.
+```sh
+txtDate.setMask("##-##-####").setRequired(false)
 ```
 
 
