@@ -16,7 +16,7 @@ Please see the description of this library in my article ***[Edittext Picker Lib
 
 ## Result
 
-<img alt="pic-1" src="https://github.com/AliAzaz/Edittext-Library/blob/master/images/pic1.png" width="220" height="460"/> &nbsp; <img alt="pic-2" src="https://github.com/AliAzaz/Edittext-Library/blob/master/images/pic2.png" width="220" height="460"/> &nbsp; <img alt="pic-3" src="https://github.com/AliAzaz/Edittext-Library/blob/master/images/pic3.png" width="220" height="460"/>
+<img alt="pic-1" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic1.png" width="220" height="460"/> &nbsp; <img alt="pic-2" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic2.png" width="220" height="460"/> &nbsp; <img alt="pic-3" src="https://github.com/AliAzaz/Edittext-Library/blob/master/demo/pic3.png" width="220" height="460"/>
 
 
 ## How to use it??
