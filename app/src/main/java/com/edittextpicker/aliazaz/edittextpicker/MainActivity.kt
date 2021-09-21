@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity() {
     private fun settingListeners() {
         btnSubmit.setOnClickListener {
             if (validateComponents()) {
-                Toast.makeText(this@MainActivity, "Successfully submitted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, getString(R.string.form_submitted), Toast.LENGTH_SHORT)
+                    .show()
                 clearFields()
             }
         }
@@ -34,10 +35,16 @@ class MainActivity : AppCompatActivity() {
         * */
         txtDate.setMask("##-##-####").setRequired(false)
 
-        // Create Edittextpicker programatically
-        txtPicker = EditTextPicker(this, EditTextPickerItems().setRequired(true).setRangeValues(0.5f, 40.0f).setMask("##.##").setPattern("^(\\d{2,2}\\.\\d{2,2})$").create())
-        txtPicker.hint = "##.##"
-        txtPicker.inputType = InputType.TYPE_CLASS_NUMBER
+        // Create EditTextPicker programmatically
+        txtPicker = EditTextPicker(this, EditTextPickerItems().apply {
+            setRequired(true)
+            setRangeValues(0.5f, 40.0f)
+            setMask("##.##")
+            setPattern("^(\\d{2,2}\\.\\d{2,2})$")
+        }.create()).apply {
+            hint = "##.##"
+            inputType = InputType.TYPE_CLASS_NUMBER
+        }
         llLayout.addView(txtPicker)
 
     }

@@ -114,26 +114,23 @@ Implement this code in submit button click
                 return;
 ```
 
-## Builder Pattern
+
+## Now support Builder Pattern
 This library also works if you implement chain request, like in this way:
 
 > Example code
 
 ```sh
-EditTextPicker(this, 
-
-	  EditTextPickerItems()
-
-	      .setRequired(true)
-
-	      .setRangeValues(0.5f,40.0f)
-
-	      .setMask("##.##")
-
-	      .setPattern("^(\\d{2,2}\\.\\d{2,2})$")
-
-	      .create()
-)
+	 txtPicker = EditTextPicker(this,
+	     EditTextPickerItems().apply {
+             setRequired(true)
+             setRangeValues(0.5f, 40.0f)
+             setMask("##.##")
+             setPattern("^(\\d{2,2}\\.\\d{2,2})$")
+          }.create()).apply {
+              hint = "##.##"
+              inputType = InputType.TYPE_CLASS_NUMBER
+          }
 ```
 
 
