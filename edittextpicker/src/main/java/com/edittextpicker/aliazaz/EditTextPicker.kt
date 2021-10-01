@@ -9,6 +9,7 @@ import com.edittextpicker.aliazaz.repository.EditTextPickerWatcher
 import com.edittextpicker.aliazaz.utils.EditTextViews
 import com.edittextpicker.aliazaz.utils.clearError
 import com.edittextpicker.aliazaz.utils.setMaskEditTextLength
+import org.apache.commons.lang3.StringUtils
 import kotlin.math.roundToLong
 
 /*
@@ -39,7 +40,11 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     /*
     * Initialize class with {@param context}, {@param attributeSet} and {@param EditTextModel} pass as an argument. Used while creating EditTextPicker programmatically
     * */
-    constructor(context: Context, defaultStyle: Int, editTextPickerModel: EditTextModel) : super(context, null, defaultStyle) {
+    constructor(context: Context, defaultStyle: Int, editTextPickerModel: EditTextModel) : super(
+        context,
+        null,
+        defaultStyle
+    ) {
         this.editTextPickerModel = editTextPickerModel.editTextPickerModel!!
         maskingListener()
     }
@@ -56,7 +61,11 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     /*
     * Initialize class with {@param context}, {@param attributeSet} and {@param defaultStyle} pass as an argument
     * */
-    constructor(context: Context, attrs: AttributeSet?, defaultStyle: Int) : super(context, attrs, defaultStyle) {
+    constructor(context: Context, attrs: AttributeSet?, defaultStyle: Int) : super(
+        context,
+        attrs,
+        defaultStyle
+    ) {
         initialize(context, attrs)
     }
 
@@ -68,8 +77,8 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         editTextPickerModel = EditTextPickerModel()
         attrs?.let { item ->
             val a = context.obtainStyledAttributes(
-                    item,
-                    R.styleable.EditTextPicker
+                item,
+                R.styleable.EditTextPicker
             )
             try {
                 a.run {
@@ -78,7 +87,8 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
                     * 2. Default value is 'true'
                     * 3. Optional
                     * */
-                    editTextPickerModel.required = getBoolean(R.styleable.EditTextPicker_required, true)
+                    editTextPickerModel.required =
+                        getBoolean(R.styleable.EditTextPicker_required, true)
 
 
                     /*
@@ -107,14 +117,18 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
                     * */
                     editTextPickerModel.type = getInteger(R.styleable.EditTextPicker_type, 0)
                     if (editTextPickerModel.type == 1) {
-                        editTextPickerModel.minvalue = getFloat(R.styleable.EditTextPicker_minValue, -1f)
-                        editTextPickerModel.maxvalue = getFloat(R.styleable.EditTextPicker_maxValue, -1f)
-                        editTextPickerModel.rangedefaultvalue = getFloat(R.styleable.EditTextPicker_defaultValue, -1f)
+                        editTextPickerModel.minvalue =
+                            getFloat(R.styleable.EditTextPicker_minValue, -1f)
+                        editTextPickerModel.maxvalue =
+                            getFloat(R.styleable.EditTextPicker_maxValue, -1f)
+                        editTextPickerModel.rangedefaultvalue =
+                            getFloat(R.styleable.EditTextPicker_defaultValue, -1f)
                         if (editTextPickerModel.minvalue == -1f) throw RuntimeException("Min value attribute not provided in xml")
                         if (editTextPickerModel.maxvalue == -1f) throw RuntimeException("Max value attribute not provided in xml")
                     } else if (editTextPickerModel.type == 2) {
                         editTextPickerModel.pattern = getString(R.styleable.EditTextPicker_pattern)
-                        editTextPickerModel.defaultvalue = getString(R.styleable.EditTextPicker_defaultValue)
+                        editTextPickerModel.defaultvalue =
+                            getString(R.styleable.EditTextPicker_defaultValue)
                                 ?: ""
                         if (editTextPickerModel.pattern == null) throw RuntimeException("Pattern value attribute not provided in xml")
                     }
@@ -158,10 +172,14 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         if (!editTextPickerModel.required) return true
         if (!isEmptyTextBox()) return false
         if (!checkingTextPattern(null)) return false
-        if (super.getText().toString().toFloat() < editTextPickerModel.minvalue || super.getText().toString().toFloat() > editTextPickerModel.maxvalue) {
+        if (super.getText().toString().toFloat() < editTextPickerModel.minvalue || super.getText()
+                .toString().toFloat() > editTextPickerModel.maxvalue
+        ) {
             if (editTextPickerModel.rangedefaultvalue != -1f) {
                 var dValue = super.getText().toString().toFloat()
-                if (super.getText().toString().toFloat() == super.getText().toString().toFloat().roundToLong().toFloat())
+                if (super.getText().toString().toFloat() == super.getText().toString().toFloat()
+                        .roundToLong().toFloat()
+                )
                     dValue = super.getText().toString().split("\\.").toTypedArray()[0].toFloat()
                 if (dValue == editTextPickerModel.rangedefaultvalue) {
                     return true
@@ -169,8 +187,12 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
             }
             var minVal = editTextPickerModel.minvalue.toString()
             var maxVal = editTextPickerModel.maxvalue.toString()
-            if (editTextPickerModel.minvalue == editTextPickerModel.minvalue.roundToLong().toFloat()) minVal = minVal.split(".").toTypedArray()[0]
-            if (editTextPickerModel.maxvalue == editTextPickerModel.maxvalue.roundToLong().toFloat()) maxVal = maxVal.split(".").toTypedArray()[0]
+            if (editTextPickerModel.minvalue == editTextPickerModel.minvalue.roundToLong()
+                    .toFloat()
+            ) minVal = minVal.split(".").toTypedArray()[0]
+            if (editTextPickerModel.maxvalue == editTextPickerModel.maxvalue.roundToLong()
+                    .toFloat()
+            ) maxVal = maxVal.split(".").toTypedArray()[0]
             super.setError(customError ?: "The range is from $minVal to $maxVal ")
             super.setFocusableInTouchMode(true)
             super.requestFocus()
@@ -192,7 +214,8 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         if (!isEmptyTextBox()) return false
         if (!checkingTextPattern(customError))
             return when {
-                editTextPickerModel.type == 2 && super.getText().toString() == editTextPickerModel.defaultvalue -> {
+                editTextPickerModel.type == 2 && super.getText()
+                    .toString() == editTextPickerModel.defaultvalue -> {
                     clearError(this)
                     true
                 }
@@ -228,12 +251,16 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
     * [maskingListener] adding and removing TextChangedListener
     * */
     private fun maskingListener() {
-        if (editTextPickerModel.mask.isNullOrEmpty()) removeTextChangedListener(editTextPickerWatcher)
+        if (editTextPickerModel.mask.isNullOrEmpty()) removeTextChangedListener(
+            editTextPickerWatcher
+        )
         else {
-            editTextPickerWatcher = EditTextPickerWatcher(editTextPickerModel.mask)
-            addTextChangedListener(editTextPickerWatcher)
-            if (editTextPickerModel.mask.toString().trim { it <= ' ' }.isNotEmpty()) {
-                setMaskEditTextLength(this@EditTextPicker, editTextPickerModel.mask!!)
+            editTextPickerModel.mask?.let { mask ->
+                editTextPickerWatcher = EditTextPickerWatcher(mask)
+                addTextChangedListener(editTextPickerWatcher)
+                if (mask.trim { it <= ' ' }.isNotEmpty()) {
+                    setMaskEditTextLength(this@EditTextPicker, mask)
+                }
             }
         }
     }

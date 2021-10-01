@@ -1,5 +1,7 @@
 package com.edittextpicker.aliazaz.model
 
+import org.apache.commons.lang3.StringUtils
+
 /*
 * @author Ali Azaz Alam
 * */
@@ -16,7 +18,7 @@ internal data class EditTextPickerModel(
         /*
         * For Type equal: Required pattern and its corresponding default value
         * */
-        var defaultvalue: String = "",
+        var defaultvalue: String = StringUtils.EMPTY,
         var pattern: String? = null,
 
         /*
