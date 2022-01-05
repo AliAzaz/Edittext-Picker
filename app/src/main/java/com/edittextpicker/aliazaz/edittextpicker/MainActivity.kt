@@ -5,26 +5,32 @@ import android.text.InputType
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.edittextpicker.aliazaz.EditTextPicker
+import com.edittextpicker.aliazaz.edittextpicker.databinding.ActivityMainBinding
 import com.edittextpicker.aliazaz.repository.EditTextPickerItems
-import kotlinx.android.synthetic.main.activity_main.*
 
 /*
 * @author Ali Azaz Alam
 * */
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
-    lateinit var txtPicker: EditTextPicker
+    private lateinit var txtPicker: EditTextPicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         settingListeners()
     }
 
     private fun settingListeners() {
-        btnSubmit.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
             if (validateComponents()) {
-                Toast.makeText(this@MainActivity, getString(R.string.form_submitted), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.form_submitted),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
                 clearFields()
             }
@@ -33,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         /*
         * Setting date mask to txtDate
         * */
-        txtDate.setMask("##-##-####").setRequired(false)
+        binding.txtDate.setMask("##-##-####").setRequired(false)
 
         // Create EditTextPicker programmatically
         txtPicker = EditTextPicker(this, EditTextPickerItems().apply {
@@ -45,23 +51,23 @@ class MainActivity : AppCompatActivity() {
             hint = "##.##"
             inputType = InputType.TYPE_CLASS_NUMBER
         }
-        llLayout.addView(txtPicker)
+        binding.llLayout.addView(txtPicker)
 
     }
 
     private fun validateComponents(): Boolean {
-        if (!txtBoxRange.isRangeTextValidate()) return false
+        if (!binding.txtBoxRange.isRangeTextValidate()) return false
         else if (!txtPicker.isRangeTextValidate()) return false
-        else if (!txtBoxDefault.isTextEqualToPattern()) return false
-        else if (!txtDate.isEmptyTextBox()) return false
-        return txtPhone.isEmptyTextBox()
+        else if (!binding.txtBoxDefault.isTextEqualToPattern()) return false
+        else if (!binding.txtDate.isEmptyTextBox()) return false
+        return binding.txtPhone.isEmptyTextBox()
     }
 
     private fun clearFields() {
-        txtBoxRange.text = null
+        binding.txtBoxRange.text = null
         txtPicker.text = null
-        txtBoxDefault.text = null
-        txtDate.text = null
-        txtPhone.text = null
+        binding.txtBoxDefault.text = null
+        binding.txtDate.text = null
+        binding.txtPhone.text = null
     }
 }

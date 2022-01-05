@@ -2,7 +2,7 @@ language: android
 
 android:
   components:
-    - android-30
+    - android-31
     - build-tools-30.0.3
     - tools
     - platform-tools
