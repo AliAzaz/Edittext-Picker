@@ -1,5 +1,9 @@
 language: android
 
+branches:
+  only:
+    - master
+
 android:
   components:
     - android-30
@@ -9,7 +13,7 @@ android:
     - extra-android-m2repository
 
 before_install:
-  - yes | sdkmanager "build-tools;30.0.3"
+  - yes | sdkmanager "build-tools;33.0.0"
   - chmod +x gradlew
 
 script:
