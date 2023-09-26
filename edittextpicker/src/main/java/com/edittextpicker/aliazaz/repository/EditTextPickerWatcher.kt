@@ -18,13 +18,13 @@ internal class EditTextPickerWatcher(private val mask: String?) : TextWatcher {
     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
     override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-        mask?.apply { maskCheckFlag = i2 != 0 }
+        mask?.let { maskCheckFlag = i2 != 0 }
     }
 
     override fun afterTextChanged(editable: Editable) {
         mask?.apply {
             if (!maskCheckFlag) return
-            val txt = editTextLoopToNextChar(mask, editable.length - 1)
+            val txt = editTextLoopToNextChar(this, editable.length - 1)
             if (txt.isEmpty()) return
             //Input Filter work
             val filters = editable.filters //get filter
