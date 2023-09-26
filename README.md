@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.com/AliAzaz/Edittext-Picker.svg?branch=master)](https://travis-ci.org/AliAzaz/Edittext-Library) [![](https://jitpack.io/v/AliAzaz/Edittext-Library.svg)](https://jitpack.io/#AliAzaz/Edittext-Library) [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
  [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-EditTextPicker-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7671)
 
-Edittext library by which you can easily achieve lot of functionalities though directly implemented some lines of code in XML and on Java side.
-Following are the functions that EditTextPicker provides:
+Edittext library by which you can easily achieve a lot of functionalities by directly implementing some lines of code in XML and on the Java side.
+The following are the functions that EditTextPicker provides:
 
   - Empty checking
   - Masking Edittext
@@ -52,7 +52,7 @@ Note: By default required is true. But if you don't want to validate specific ed
      app:required="true" />
 ```
 
--- Range (5-10) with default value of 999
+-- Range (5-10) with a default value of 999
 ```sh
 <com.edittextpicker.aliazaz.EditTextPicker
      android:id="@+id/txtBoxRange"
@@ -126,7 +126,7 @@ txtPicker = EditTextPicker(this,
 
 ## Set values at Run time
 
-User can easily set the attributes values in code file.
+Users can easily set the attribute values at runtime.
 ```sh
 txtDate.setMask("##-##-####").setRequired(false)
 ```
