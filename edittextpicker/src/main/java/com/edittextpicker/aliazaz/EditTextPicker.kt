@@ -1,14 +1,17 @@
 package com.edittextpicker.aliazaz
 
 import android.content.Context
+import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.edittextpicker.aliazaz.model.EditTextModel
 import com.edittextpicker.aliazaz.model.EditTextPickerModel
 import com.edittextpicker.aliazaz.repository.EditTextPickerWatcher
+import com.edittextpicker.aliazaz.utils.CONSTANTS
 import com.edittextpicker.aliazaz.utils.EditTextViews
 import com.edittextpicker.aliazaz.utils.clearError
 import com.edittextpicker.aliazaz.utils.setMaskEditTextLength
+import com.edittextpicker.aliazaz.utils.setMaskTextOnEditText
 import org.apache.commons.lang3.StringUtils
 import kotlin.math.roundToLong
 
@@ -115,22 +118,40 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
                     *   i) Required pattern value
                     *   ii) Define default value is Optional
                     * */
-                    editTextPickerModel.type = getInteger(R.styleable.EditTextPicker_type, 0)
-                    if (editTextPickerModel.type == 1) {
+                    editTextPickerModel.type =
+                        getInteger(R.styleable.EditTextPicker_type, CONSTANTS.DEFAULT_VALUE_INT)
+                    if (editTextPickerModel.type == CONSTANTS.PICKER_TYPE.RANGE) {
                         editTextPickerModel.minvalue =
-                            getFloat(R.styleable.EditTextPicker_minValue, -1f)
+                            getFloat(
+                                R.styleable.EditTextPicker_minValue,
+                                CONSTANTS.DEFAULT_VALUE_FLOAT
+                            )
                         editTextPickerModel.maxvalue =
-                            getFloat(R.styleable.EditTextPicker_maxValue, -1f)
+                            getFloat(
+                                R.styleable.EditTextPicker_maxValue,
+                                CONSTANTS.DEFAULT_VALUE_FLOAT
+                            )
                         editTextPickerModel.rangedefaultvalue =
-                            getFloat(R.styleable.EditTextPicker_defaultValue, -1f)
-                        if (editTextPickerModel.minvalue == -1f) throw RuntimeException("Min value attribute not provided in xml")
-                        if (editTextPickerModel.maxvalue == -1f) throw RuntimeException("Max value attribute not provided in xml")
-                    } else if (editTextPickerModel.type == 2) {
+                            getFloat(
+                                R.styleable.EditTextPicker_defaultValue,
+                                CONSTANTS.DEFAULT_VALUE_FLOAT
+                            )
+                        if (editTextPickerModel.minvalue == CONSTANTS.DEFAULT_VALUE_FLOAT) throw RuntimeException(
+                            resources.getString(R.string.error_minvalue)
+                        )
+                        if (editTextPickerModel.maxvalue == CONSTANTS.DEFAULT_VALUE_FLOAT) throw RuntimeException(
+                            resources.getString(R.string.error_maxvalue)
+                        )
+                    } else if (editTextPickerModel.type == CONSTANTS.PICKER_TYPE.EQUAL) {
                         editTextPickerModel.pattern = getString(R.styleable.EditTextPicker_pattern)
                         editTextPickerModel.defaultvalue =
                             getString(R.styleable.EditTextPicker_defaultValue)
-                                ?: ""
-                        if (editTextPickerModel.pattern == null) throw RuntimeException("Pattern value attribute not provided in xml")
+                                ?: StringUtils.EMPTY
+                        if (editTextPickerModel.pattern == null) throw RuntimeException(
+                            resources.getString(
+                                R.string.error_patternvalue
+                            )
+                        )
                     }
                 }
             } catch (e: Exception) {
@@ -151,7 +172,7 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         clearError(this)
         if (!editTextPickerModel.required) return true
         if (super.getText().toString().isEmpty()) {
-            super.setError(customError ?: "Required")
+            super.setError(customError ?: resources.getString(R.string.error_required))
             super.setFocusableInTouchMode(true)
             super.requestFocus()
             return false
@@ -162,25 +183,26 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
 
     /*
     * Access this functionality by setting type = range
-    * This validation identifying whether EditText fulfilling specified min and max range or defualtValue or not.
+    * This validation identifying whether EditText fulfilling specified min and max range or defaultValue or not.
     * {@param customError} set custom error to EditText
     * */
     @JvmOverloads
     fun isRangeTextValidate(customError: String? = null): Boolean {
         clearError(this)
-        if (editTextPickerModel.type == 2) return true
+        if (editTextPickerModel.type == CONSTANTS.PICKER_TYPE.EQUAL) return true
         if (!editTextPickerModel.required) return true
         if (!isEmptyTextBox()) return false
         if (!checkingTextPattern(null)) return false
         if (super.getText().toString().toFloat() < editTextPickerModel.minvalue || super.getText()
                 .toString().toFloat() > editTextPickerModel.maxvalue
         ) {
-            if (editTextPickerModel.rangedefaultvalue != -1f) {
+            if (editTextPickerModel.rangedefaultvalue != CONSTANTS.DEFAULT_VALUE_FLOAT) {
                 var dValue = super.getText().toString().toFloat()
                 if (super.getText().toString().toFloat() == super.getText().toString().toFloat()
                         .roundToLong().toFloat()
                 )
-                    dValue = super.getText().toString().split("\\.").toTypedArray()[0].toFloat()
+                    dValue = super.getText().toString().split(CONSTANTS.FULL_STOP_DELIMITER)
+                        .toTypedArray()[0].toFloat()
                 if (dValue == editTextPickerModel.rangedefaultvalue) {
                     return true
                 }
@@ -189,11 +211,14 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
             var maxVal = editTextPickerModel.maxvalue.toString()
             if (editTextPickerModel.minvalue == editTextPickerModel.minvalue.roundToLong()
                     .toFloat()
-            ) minVal = minVal.split(".").toTypedArray()[0]
+            ) minVal = minVal.split(CONSTANTS.FULL_STOP).toTypedArray()[0]
             if (editTextPickerModel.maxvalue == editTextPickerModel.maxvalue.roundToLong()
                     .toFloat()
-            ) maxVal = maxVal.split(".").toTypedArray()[0]
-            super.setError(customError ?: "The range is from $minVal to $maxVal ")
+            ) maxVal = maxVal.split(CONSTANTS.FULL_STOP).toTypedArray()[0]
+            super.setError(
+                customError
+                    ?: "${resources.getString(R.string.error_range)} $minVal to $maxVal "
+            )
             super.setFocusableInTouchMode(true)
             super.requestFocus()
             return false
@@ -214,7 +239,7 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         if (!isEmptyTextBox()) return false
         if (!checkingTextPattern(customError))
             return when {
-                editTextPickerModel.type == 2 && super.getText()
+                editTextPickerModel.type == CONSTANTS.PICKER_TYPE.EQUAL && super.getText()
                     .toString() == editTextPickerModel.defaultvalue -> {
                     clearError(this)
                     true
@@ -233,7 +258,7 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         editTextPickerModel.pattern?.let {
             return when {
                 !super.getText().toString().matches(Regex(it)) -> {
-                    super.setError(customError ?: "Not match with pattern")
+                    super.setError(customError ?: resources.getString(R.string.pattern_match))
                     super.setFocusableInTouchMode(true)
                     super.requestFocus()
                     false
@@ -249,18 +274,15 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
 
     /*
     * [maskingListener] adding and removing TextChangedListener
+    * Every time listener is first removed when [maskingListener] call then reset it
     * */
     private fun maskingListener() {
-        if (editTextPickerModel.mask.isNullOrEmpty()) removeTextChangedListener(
-            editTextPickerWatcher
-        )
-        else {
-            editTextPickerModel.mask?.let { mask ->
-                editTextPickerWatcher = EditTextPickerWatcher(mask)
-                addTextChangedListener(editTextPickerWatcher)
-                if (mask.trim { it <= ' ' }.isNotEmpty()) {
-                    setMaskEditTextLength(this@EditTextPicker, mask)
-                }
+        removeTextChangedListener(editTextPickerWatcher)
+        editTextPickerModel.mask?.let { mask ->
+            editTextPickerWatcher = EditTextPickerWatcher(mask)
+            addTextChangedListener(editTextPickerWatcher)
+            if (mask.trim { it <= ' ' }.isNotEmpty()) {
+                setMaskEditTextLength(this@EditTextPicker, mask)
             }
         }
     }
@@ -330,4 +352,13 @@ class EditTextPicker : AppCompatEditText, EditTextViews {
         return this
     }
 
+
+    /*
+    * {@param mText} Predefined text set by user with mask attribute
+    * */
+    override fun setMaskText(text: String) {
+        editTextPickerModel.mask?.let {
+            this.text = SpannableStringBuilder(setMaskTextOnEditText(it, text))
+        }
+    }
 }

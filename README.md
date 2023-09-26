@@ -112,12 +112,12 @@ This library also support chain request
 
 ```sh
 txtPicker = EditTextPicker(this,
-	     EditTextPickerItems().apply {
+	     EditTextPickerBuilder().apply {
                 setRequired(true)
                 setRangeValues(0.5f, 40.0f)
                 setMask("##.##")
                 setPattern("^(\\d{2,2}\\.\\d{2,2})$")
-          }.create())
+          }.build())
           .apply {
                 hint = "##.##"
                 inputType = InputType.TYPE_CLASS_NUMBER

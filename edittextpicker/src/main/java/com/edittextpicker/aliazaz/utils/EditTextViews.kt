@@ -22,4 +22,6 @@ interface EditTextViews {
 
     fun setEqualDefaultValue(defaultValue: String): EditTextPicker
 
+    fun setMaskText(text: String)
+
 }

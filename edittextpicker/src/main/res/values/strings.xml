@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">EditTextPicker</string>
+    <string name="pattern_match">Not match with the pattern.</string>
+    <string name="error_minvalue">Min value attribute not provided in the layout.</string>
+    <string name="error_maxvalue">Max value attribute not provided in the layout.</string>
+    <string name="error_patternvalue">Pattern value attribute not provided in the layout.</string>
+    <string name="error_required">Required</string>
+    <string name="error_range">The range is from </string>
 </resources>
