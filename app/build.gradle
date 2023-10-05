@@ -1,16 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
+    id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
 
 android {
     compileSdk compile_version
     buildToolsVersion = build_version
+    namespace 'com.edittext.aliazaz'
 
     defaultConfig {
-        applicationId "com.edittextpicker.aliazaz.edittextpicker"
+        applicationId "com.edittext.aliazaz"
         minSdkVersion min_version
         targetSdkVersion target_version
         versionCode version_code
@@ -27,11 +28,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
+        viewBinding true
     }
 }
 

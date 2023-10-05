@@ -1,19 +1,17 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
+    id 'org.jetbrains.kotlin.android'
 }
 
 ext {
-    build_version = '33.0.0'
-    compile_version = 33
-    target_version = 33
+    build_version = '34.0.0'
+    compile_version = 34
+    target_version = 34
     min_version = 21
-    versionCode = 5
-    versionName = "2.1.0"
-    kotlin_version = "1.6.10"
-    corektx_version = "1.9.0"
-    appcompat_version = "1.6.0"
+    versionName = "2.1.1"
+    corektx_version = "1.12.0"
+    appcompat_version = "1.6.1"
     espresso_version = '3.5.1'
     junit_version = '4.13.2'
     junit_ext_version = '1.1.5'
@@ -23,12 +21,11 @@ ext {
 android {
     compileSdk compile_version
     buildToolsVersion = build_version
+    namespace 'com.edittextpicker.aliazaz'
 
     defaultConfig {
         minSdkVersion min_version
         targetSdkVersion target_version
-        versionCode versionCode
-        versionName versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -43,13 +40,14 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
+    }
+
+    lint {
+        abortOnError false
     }
 
 }
