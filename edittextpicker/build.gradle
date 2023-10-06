@@ -50,6 +50,10 @@ android {
         abortOnError false
     }
 
+    kotlinOptions {
+        jvmTarget = '18'
+    }
+
 }
 
 
