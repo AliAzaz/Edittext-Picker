@@ -65,4 +65,5 @@
 
 #custom modules
 -keep class com.edittextpicker.aliazaz.model.** { *; }
--keep class com.edittextpicker.aliazaz.EditTextPicker{ *; }
+-keep class com.edittextpicker.aliazaz.EditTextPicker { *; }
+-keep class com.edittextpicker.aliazaz.repository.EditTextPickerBuilder { *; }
