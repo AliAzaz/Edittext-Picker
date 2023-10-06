@@ -128,11 +128,23 @@ txtPicker = EditTextPicker(this,
 ## Set values at Run time
 
 Users can easily set the attribute values at runtime.
+
 ```sh
 txtDate.setMask("##-##-####").setRequired(false)
 ```
+
 <br>
 
+## Library Gradle Configuration
+
+```
+  edittextpicker = 2.1.1
+  gradle = 7.4.2
+  kotlin = 1.8.0
+  build_version = 34.0.0
+  min_api_level = 21
+  max_api_level = 34
+```
 
 ## CONNECT👍
 
@@ -141,7 +153,7 @@ txtDate.setMask("##-##-####").setRequired(false)
 [![Medium Badge](https://img.shields.io/badge/-aliazazalam-black?style=flat&logo=Medium&logoColor=white&link=https://medium.com/@ali.azaz.alam)](https://medium.com/@ali.azaz.alam)
 [![Stackoverflow Badge](https://img.shields.io/badge/-aliazaz-gray?style=flat&logo=stackoverflow&logoColor=orange&link=https://stackoverflow.com/story/ali-azaz-alam)](https://stackoverflow.com/story/ali-azaz-alam)
 
-
-
 ## LICENSE
-Distributed under the MIT license. See [LICENSE](https://github.com/AliAzaz/Edittext-Library/blob/master/LICENSE) information.
+
+Distributed under the MIT license.
+See [LICENSE](https://github.com/AliAzaz/Edittext-Library/blob/master/LICENSE) information.
