@@ -34,7 +34,7 @@ android {
     buildTypes {
         release {
             //To obfuscate the code and to remove unused code. This will improve code security and will reduce APK size.
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
