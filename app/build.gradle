@@ -35,9 +35,6 @@ android {
         dataBinding true
         viewBinding true
     }
-    kotlinOptions {
-        jvmTarget = '18'
-    }
 }
 
 dependencies {
