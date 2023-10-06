@@ -28,15 +28,17 @@ android {
         targetSdkVersion target_version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
 
     }
 
     buildTypes {
         release {
-            //To obfuscate the code and to remove unused code. This will improve code security and will reduce APK size.
+            minifyEnabled true
+            consumerProguardFiles 'consumer-rules.pro'
+        }
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
         }
     }
 
