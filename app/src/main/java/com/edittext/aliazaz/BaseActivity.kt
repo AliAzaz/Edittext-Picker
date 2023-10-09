@@ -1,4 +1,4 @@
-package com.edittextpicker.aliazaz.edittextpicker
+package com.edittext.aliazaz
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -6,7 +6,7 @@ import com.edittextpicker.aliazaz.EditTextPicker
 /*
 * @author Ali Azaz Alam
 * */
-interface EditTextViews {
+internal interface EditTextViews {
 
     fun setMask(mask: String): EditTextPicker
 

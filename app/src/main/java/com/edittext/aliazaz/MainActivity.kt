@@ -1,9 +1,9 @@
-package com.edittextpicker.aliazaz.edittextpicker
+package com.edittext.aliazaz
 
 import android.text.InputType
 import android.widget.Toast
+import com.edittext.aliazaz.databinding.ActivityMainBinding
 import com.edittextpicker.aliazaz.EditTextPicker
-import com.edittextpicker.aliazaz.edittextpicker.databinding.ActivityMainBinding
 import com.edittextpicker.aliazaz.repository.EditTextPickerBuilder
 
 /*

@@ -1,38 +1,21 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
-}
-
-ext {
-    build_version = '33.0.0'
-    compile_version = 33
-    target_version = 33
-    min_version = 21
-    versionCode = 5
-    versionName = "2.1.0"
-    kotlin_version = "1.6.10"
-    corektx_version = "1.9.0"
-    appcompat_version = "1.6.0"
-    espresso_version = '3.5.1'
-    junit_version = '4.13.2'
-    junit_ext_version = '1.1.5'
-    stringlangVersion = "3.12.0"
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdk compile_version
-    buildToolsVersion = build_version
+    compileSdk ConfigurationData.compileSdkVersion
+    buildToolsVersion = ConfigurationData.buildToolsVersion
+    namespace 'com.edittextpicker.aliazaz'
 
     defaultConfig {
-        minSdkVersion min_version
-        targetSdkVersion target_version
-        versionCode versionCode
-        versionName versionName
+        minSdkVersion ConfigurationData.minSdkVersion
+        targetSdkVersion ConfigurationData.targetSdkVersion
+        versionCode ConfigurationData.versionCode
+        versionName ConfigurationData.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
-
     }
 
     buildTypes {
@@ -43,13 +26,14 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
+    }
+
+    lint {
+        abortOnError false
     }
 
 }
@@ -57,11 +41,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "androidx.core:core-ktx:$corektx_version"
-    implementation "org.apache.commons:commons-lang3:$stringlangVersion"
+    implementation AndroidApp.appCompat
+    implementation AndroidApp.coreKTX
+    implementation AndroidApp.stringLANG
 
-    testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    testImplementation Testing.junit
+    androidTestImplementation Testing.junitImpl
+    androidTestImplementation Testing.expresso
 }
