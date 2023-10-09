@@ -135,7 +135,7 @@ txtDate.setMask("##-##-####").setRequired(false)
 
 <br>
 
-## Library Gradle Configuration
+## EditText-Picker Gradle Configuration
 
 ```
   edittextpicker = 2.1.1

@@ -1,21 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext {
-        build_version = '34.0.0'
-        compile_version = 34
-        target_version = 34
-        min_version = 21
-        version_code = 7
-        version_name = "2.1.1"
-        corektx_version = "1.12.0"
-        appcompat_version = "1.6.1"
-        constraint_version = "2.1.4"
-        espresso_version = '3.5.1'
-        junit_version = '4.13.2'
-        junit_ext_version = '1.1.5'
-    }
-
     repositories {
         google()
         mavenCentral()
