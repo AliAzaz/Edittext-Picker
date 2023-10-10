@@ -1,7 +1,6 @@
 # EditTextPicker/Masked-Edittext Library
 
-[![Build Status](https://travis-ci.com/AliAzaz/Edittext-Picker.svg?branch=master)](https://travis-ci.org/AliAzaz/Edittext-Library) [![](https://jitpack.io/v/AliAzaz/Edittext-Library.svg)](https://jitpack.io/#AliAzaz/Edittext-Library) [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
- [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-EditTextPicker-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7671)
+[![Build Status](https://travis-ci.com/AliAzaz/Edittext-Picker.svg?branch=master)](https://travis-ci.org/AliAzaz/Edittext-Library) [![](https://img.shields.io/badge/Jitpack-2.1.1-brightgreen.svg)](https://jitpack.io/#AliAzaz/Edittext-Library/2.1.1) [![API](https://img.shields.io/badge/API-21%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=21) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-EditTextPicker-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7671) [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 Edittext library by which you can easily achieve a lot of functionalities by directly implementing some lines of code in XML and on the Java side.
 The following are the functions that EditTextPicker provides:
